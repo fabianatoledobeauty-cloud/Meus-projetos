@@ -179,6 +179,9 @@ h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0}
 .bars div{display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;justify-content:flex-end;font-size:11px;color:var(--ink-2)}
 .bars i{display:block;width:100%;border-radius:6px 6px 2px 2px;background:var(--accent)}
 .bars div.today i{background:var(--now)}
+.acad{display:inline-block;margin-top:4px;font-size:11px;font-weight:700;color:var(--accent);background:var(--accent-soft);padding:2px 7px;border-radius:6px}
+.feat{margin-top:20px;padding:14px;border-radius:16px;border:1px solid var(--accent);background:var(--surface)}
+.grow{margin-top:10px}
 .kv{display:flex;justify-content:space-between;gap:10px;font-size:13.5px;padding:6px 0}
 .kv span{color:var(--ink-2)}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
@@ -194,7 +197,8 @@ h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0}
         <li>No modo <b>Agora</b>, adicione “Massagem relaxante” e “Progressiva sem formol”, ou toque no combo “Spa em casa”.</li>
         <li>Abra o pedido, confira o preço e quanto vai para as profissionais, e toque em <b>Chamar agora</b>.</li>
         <li>Acompanhe a chegada, use o PIN e avalie no fim.</li>
-        <li>Na aba <b>Profissional</b>, veja o app do outro lado: pedido chegando com o valor líquido já calculado.</li>
+        <li>Na aba <b>Profissional</b>, veja o app do outro lado: pedido chegando com o valor líquido já calculado, selo da Academy, impulsionamento e cursos com desconto.</li>
+        <li>Na categoria <b>Micropigmentação</b>, veja como funcionam os serviços feitos no estúdio.</li>
       </ol>
     </div>
     <div>
@@ -204,10 +208,12 @@ h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0}
         <div class="diff"><b>Vários serviços, um pedido</b><span>Massagem + progressiva + unhas. A Belê coordena 2 ou 3 profissionais e horários.</span><em>Hoje cada serviço é um pedido separado</em></div>
         <div class="diff"><b>Preço final, sem surpresa</b><span>Tabela por comprimento de cabelo e duração. Nada a combinar na porta.</span><em>Reclamação comum: valor muda na hora</em></div>
         <div class="diff"><b>Cobrança só na chegada</b><span>O valor só é cobrado quando a profissional chega e você informa o PIN.</span><em>Contra atraso e “no-show”</em></div>
-        <div class="diff"><b>Profissional ganha 80%</b><span>O app mostra para a cliente quanto vai para quem atende. Taxa de urgência e gorjeta vão 100% para ela.</span><em>Concorrente líder retém 35–40%</em></div>
+        <div class="diff"><b>Profissional ganha 80%</b><span>O app mostra para a cliente quanto vai para quem atende. Taxa de urgência e gorjeta vão 100% para ela.</span><em>Concorrente líder retém 35% a 40%</em></div>
         <div class="diff"><b>Segurança dos dois lados</b><span>Identidade e antecedentes checados, PIN, trajeto compartilhável, botão de emergência e cliente avaliada também.</span><em>Atendimento dentro de casa exige isso</em></div>
         <div class="diff"><b>Produto transparente</b><span>Progressiva sem formol, com registro Anvisa mostrado antes de aplicar.</span><em>Risco real à saúde no setor</em></div>
         <div class="diff"><b>Garantia Belê</b><span>Profissional cancelou? Outra é chamada na hora, sem você abrir chamado. Não ficou bom? Retoque grátis em 7 dias.</span><em>No-show e reembolso lento: queixas nº 1 e 2</em></div>
+        <div class="diff"><b>Selo F.Tolledo Academy</b><span>Alunas formadas ganham selo, vitrine em destaque e 30 dias de impulsionamento grátis. Destaque só com nota alta.</span><em>Quem está começando consegue as primeiras clientes</em></div>
+        <div class="diff"><b>Formação dentro do app</b><span>O app mostra a demanda do bairro e indica o curso certo, com desconto na Academy e em escolas parceiras.</span><em>Ninguém liga demanda real a formação</em></div>
         <div class="diff"><b>Justa com a profissional</b><span>Nenhum bloqueio sem direito de defesa. Notas fora da curva não derrubam ninguém. Pix na hora.</span><em>Bloqueio sem explicação é a maior queixa delas</em></div>
       </div>
     </div>
@@ -231,20 +237,24 @@ const SERVICES=[
  {id:"drenagem",cat:"Massagem",skill:"corpo",name:"Drenagem linfática",desc:"Técnica manual para retenção de líquido.",opts:[["60 minutos","1h",180],["Pacote 5 sessões","5 × 1h",800]],trust:["Formação verificada","Maca inclusa"]},
  {id:"sobr",cat:"Rosto",skill:"rosto",name:"Design de sobrancelha",desc:"Medição e design com pinça e linha.",opts:[["Design","40 min",55],["Design com henna","1h",75]],trust:["Henna com registro Anvisa"]},
  {id:"make",cat:"Rosto",skill:"rosto",name:"Maquiagem social",desc:"Para festas e eventos. Inclui cílios postiços.",opts:[["Maquiagem social","1h",180],["Maquiagem + penteado","2h",290]],trust:["Pincéis higienizados","Kit de cílios descartável"]},
+ {id:"lips",cat:"Micropigmentação",skill:"rosto",studio:true,name:"Magnific Lips",desc:"Micropigmentação labial com cor e contorno naturais. Feita só por profissionais certificadas no método.",opts:[["Avaliação gratuita","30 min",0]],trust:["Só profissionais certificadas pela F.Tolledo Academy","Retoque agendado automaticamente pelo app"]},
+ {id:"nano",cat:"Micropigmentação",skill:"rosto",studio:true,name:"Nanoblading",desc:"Sobrancelha fio a fio com nano agulha, resultado natural.",opts:[["Avaliação gratuita","30 min",0]],trust:["Só profissionais certificadas pela F.Tolledo Academy","Retoque agendado automaticamente pelo app"]},
+ {id:"shadow",cat:"Micropigmentação",skill:"rosto",studio:true,name:"Magnific Shadow",desc:"Sobrancelha com efeito sombreado.",opts:[["Avaliação gratuita","30 min",0]],trust:["Só profissionais certificadas pela F.Tolledo Academy","Retoque agendado automaticamente pelo app"]},
  {id:"depil",cat:"Depilação",skill:"corpo",name:"Depilação com cera",desc:"Cera quente ou fria, à sua escolha.",opts:[["Axilas","20 min",35],["Pernas inteiras","50 min",90],["Virilha completa","40 min",70]],trust:["Espátulas descartáveis, cera não reaproveitada"]}
 ];
-const CATS=["Tudo","Cabelo","Unhas","Massagem","Rosto","Depilação"];
+const CATS=["Tudo","Cabelo","Unhas","Massagem","Rosto","Micropigmentação","Depilação"];
 const COMBOS=[
  {name:"Spa em casa",items:{massagem:0,prog:1},desc:"Massagem 60 min + progressiva (cabelo médio). Duas profissionais, horários coordenados."},
  {name:"Pré-festa",items:{make:0,escova:1},desc:"Maquiagem social + escova. Pronta em 2h."},
  {name:"Cuidado completo",items:{mani:1,sobr:0,hidrat:0},desc:"Mãos e pés, sobrancelha e hidratação."}
 ];
 const PROS={
- cabelo:{name:"Juliana R.",ini:"JR",color:"#8E3B5E",spec:"Cabeleireira · progressiva e coloração",rate:"4,9",n:312,km:"2,1 km",eta:42},
+ cabelo:{name:"Juliana R.",ini:"JR",color:"#8E3B5E",spec:"Cabeleireira · progressiva e coloração",rate:"4,9",n:312,km:"2,1 km",eta:42,academy:true},
  corpo:{name:"Camila S.",ini:"CS",color:"#0B7A6C",spec:"Massoterapeuta · 6 anos",rate:"4,95",n:540,km:"1,4 km",eta:31},
  unhas:{name:"Patrícia M.",ini:"PM",color:"#B4571E",spec:"Manicure · gel e nail art",rate:"4,8",n:887,km:"3,0 km",eta:48},
- rosto:{name:"Renata A.",ini:"RA",color:"#5B4BA8",spec:"Maquiadora · sobrancelha e cílios",rate:"4,9",n:205,km:"2,6 km",eta:39}
+ rosto:{name:"Renata A.",ini:"RA",color:"#5B4BA8",spec:"Sobrancelha e maquiagem",rate:"4,9",n:205,km:"2,6 km",eta:39,academy:true}
 };
+const STARS=[{name:"Larissa T.",ini:"LT",color:"#A0285A",spec:"Magnific Lips e Nanoblading · estúdio em Pinheiros",rate:"5,0",n:96,km:"1,8 km",academy:true}];
 const SLOTS=["Hoje 19:00","Hoje 20:30","Amanhã 08:00","Amanhã 10:00","Amanhã 14:00","Sáb 09:00"];
 const S={view:"home",mode:"agora",cat:"Tudo",q:"",cart:{},svc:null,opt:0,slot:SLOTS[0],pay:"pix",pref:"rapida",matched:false,stars:{},tip:0,online:true,reqLeft:30,reqState:"pending"};
 let timers=[];
@@ -253,6 +263,8 @@ const fmt=v=>v.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
 const svc=id=>SERVICES.find(s=>s.id===id);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
+const badge=p=>p.academy?`<span class="acad">Formada F.Tolledo Academy</span>`:"";
+function proCard(p){return `<div class="pro"><div class="av" style="background:${p.color}">${p.ini}</div><div><b>${p.name}</b><small>${p.spec} · ${p.km}</small><div class="ok">✓ Identidade e antecedentes verificados</div>${badge(p)}</div><div class="rating">★ ${p.rate}<br><small style="font-weight:400;color:var(--ink-2)">${p.n}</small></div></div>`}
 function totals(){
   const items=Object.entries(S.cart).map(([id,o])=>{const s=svc(id);return {s,o,label:s.opts[o][0],dur:s.opts[o][1],price:s.opts[o][2]}});
   const sub=items.reduce((a,i)=>a+i.price,0);
@@ -293,9 +305,10 @@ function vHome(){
     <div class="sec"><h2>Combos</h2><span>10% off em 2+ serviços</span></div>
     <div class="combos">${COMBOS.map((c,i)=>{const full=Object.entries(c.items).reduce((a,[id,o])=>a+svc(id).opts[o][2],0);return `<button class="combo" data-a="combo" data-v="${i}"><span class="tag ${i===0?"now":""}">${i===0?"Disponível agora":Object.keys(c.items).length+" serviços"}</span><h3>${c.name}</h3><p>${c.desc}</p><div class="price">${fmt(full*0.9)}<s>${fmt(full)}</s></div></button>`}).join("")}</div>`:""}
     <div class="sec"><h2>${S.cat==="Tudo"?"Serviços":S.cat}</h2><span>preço final, sem taxa escondida</span></div>
-    <div class="list">${list.length?list.map(s=>{const inC=s.id in S.cart;return `<div class="row"><button data-a="open" data-v="${s.id}" style="border:0;background:none;padding:0;text-align:left;min-width:0"><b>${s.name}</b><small>${s.opts[0][1]} · a partir de ${fmt(s.opts[0][2])}</small></button><button class="add ${inC?"in":""}" data-a="${inC?"remove":"open"}" data-v="${s.id}" aria-label="${inC?"Remover":"Adicionar"} ${s.name}">${inC?"✓":"+"}</button></div>`}).join(""):`<p style="color:var(--ink-2)">Nenhum serviço encontrado para “${esc(S.q)}”.</p>`}</div>
+    <div class="list">${list.length?list.map(s=>{const inC=s.id in S.cart;return `<div class="row"><button data-a="open" data-v="${s.id}" style="border:0;background:none;padding:0;text-align:left;min-width:0"><b>${s.name}</b><small>${s.studio?"No estúdio · avaliação gratuita":s.opts[0][1]+" · a partir de "+fmt(s.opts[0][2])}</small></button><button class="add ${inC?"in":""}" data-a="${inC?"remove":"open"}" ${s.studio?'style="font-size:13px;width:auto;padding:0 10px;border-radius:999px"':""} data-v="${s.id}" aria-label="${inC?"Remover":"Adicionar"} ${s.name}">${inC?"✓":s.studio?"Ver":"+"}</button></div>`}).join(""):`<p style="color:var(--ink-2)">Nenhum serviço encontrado para “${esc(S.q)}”.</p>`}</div>
+    <div class="feat"><div class="sec" style="margin:0 0 4px"><h2>Formadas F.Tolledo Academy</h2><span class="tag">Destaque</span></div><small style="color:var(--ink-2)">Profissionais com formação verificada e nota 4,8 ou mais.</small>${[...STARS,PROS.rosto].map(proCard).join("")}</div>
     <div class="sec"><h2>Online perto de você</h2><span><span class="dot"></span>14 agora</span></div>
-    ${Object.values(PROS).map(p=>`<div class="pro"><div class="av" style="background:${p.color}">${p.ini}</div><div><b>${p.name}</b><small>${p.spec} · ${p.km}</small><div class="ok">✓ Identidade e antecedentes verificados</div></div><div class="rating">★ ${p.rate}<br><small style="font-weight:400;color:var(--ink-2)">${p.n}</small></div></div>`).join("")}
+    ${Object.values(PROS).map(proCard).join("")}
   </div>
   ${t.items.length?`<div class="cartbar"><button class="btn ${S.mode==="agora"?"now":""}" data-a="go" data-v="cart"><span>${t.items.length} ${t.items.length>1?"serviços":"serviço"}</span><span>Ver pedido · ${fmt(t.total)}</span></button></div>`:""}`;
 }
@@ -308,7 +321,9 @@ function vService(){
     ${s.opts.map((o,i)=>`<button class="opt ${S.opt===i?"on":""}" data-a="opt" data-v="${i}"><span class="radio"></span><span><b>${o[0]}</b><small>Duração ${o[1]}</small></span><span class="price-t">${fmt(o[2])}</span></button>`).join("")}
     <div class="trust">${s.trust.map(x=>`<div><i>✓</i><span>${x}</span></div>`).join("")}<div><i>✓</i><span>Garantia Belê: retoque grátis em até 7 dias</span></div></div>
   </div>
-  <div class="cartbar"><button class="btn" data-a="addsvc"><span>Adicionar ao pedido</span><span>${fmt(s.opts[S.opt][2])}</span></button></div>`;
+  ${s.studio?`<div class="pad" style="padding-top:0"><div class="share" style="background:var(--accent-soft)"><b style="color:var(--accent)">Feito no estúdio da profissional.</b> Micropigmentação exige ambiente com licença sanitária, por isso não é feita em domicílio. O app mostra estúdios perto de você.</div>${STARS.map(proCard).join("")}</div>
+  <div class="cartbar"><button class="btn center" data-a="toast" data-m="No app real: escolha dia e hora da avaliação no estúdio. O retoque é agendado sozinho depois.">Agendar avaliação gratuita</button></div>`
+  :`<div class="cartbar"><button class="btn" data-a="addsvc"><span>Adicionar ao pedido</span><span>${fmt(s.opts[S.opt][2])}</span></button></div>`}`;
 }
 
 function vCart(){
@@ -421,6 +436,12 @@ function vPro(){
   <div class="sec"><h2>Ganhos da semana</h2><span>líquido</span></div>
   <div class="bars">${week.map(([d,v])=>`<div class="${d==="Hoje"?"today":""}"><i style="height:${Math.max(6,v/mx*85)}%"></i>${d.trim()}</div>`).join("")}</div>
   <div class="card" style="margin-top:14px"><div class="kv"><span>Disponível para saque</span><b>${fmt(1180.4)}</b></div><button class="btn now center" data-a="toast" data-m="No app real: Pix enviado na hora, sem taxa.">Sacar via Pix agora · grátis</button></div>
+  <div class="sec"><h2>Crescer na Belê</h2><span>nível Prata</span></div>
+  <div class="card grow"><div class="kv" style="padding-top:0"><b>Selo F.Tolledo Academy</b><span class="ok">Ativo</span></div><small style="color:var(--ink-2)">Seu perfil aparece em “Formadas F.Tolledo Academy” e tem preferência quando duas profissionais empatam em distância e nota.</small></div>
+  <div class="card grow"><div class="kv" style="padding-top:0"><b>Impulsionar perfil</b><span>18 dias grátis restantes</span></div><small style="color:var(--ink-2)">Presente de formatura: 30 dias de destaque. Depois, a partir de ${fmt(4.9)} por dia. Só para quem mantém nota 4,7 ou mais.</small><button class="btn ghost" style="margin-top:10px" data-a="toast" data-m="No app real: escolha bairros e dias para aparecer em destaque.">Escolher bairros e dias</button></div>
+  <div class="card grow" style="border-color:var(--now)"><b>Demanda na sua região</b><p style="margin:4px 0 0;font-size:13.5px;color:var(--ink-2)">Esta semana: <b style="color:var(--ink)">38 buscas por Magnific Lips</b> num raio de 5 km e só 2 profissionais certificadas. Formação com 30% de desconto para você.</p></div>
+  <div class="label">Cursos com desconto</div>
+  <div class="list">${[["Magnific Lips","F.Tolledo Academy","30% off"],["Nanoblading","F.Tolledo Academy","30% off"],["Método Design Perfeito","F.Tolledo Academy","25% off"],["Biossegurança em domicílio","Grátis para todas","Obrigatório"],["Drenagem linfática","Escola parceira (exemplo)","15% off"]].map(([n,e,d])=>`<div class="row"><div style="min-width:0"><b>${n}</b><small>${e}</small></div><span class="tag ${d==="Obrigatório"?"now":""}" style="background:var(--accent-soft)">${d}</span></div>`).join("")}</div>
   <div class="label">Como você é paga</div>
   <div class="trust" style="margin-top:0"><div><i>✓</i><span>80% de cada serviço é seu. A taxa de “agora” e as gorjetas, 100%.</span></div><div><i>✓</i><span>Cancelamento da cliente com menos de 2h: você recebe 50% do valor.</span></div><div><i>✓</i><span>Você define raio, horários e quais serviços aceita.</span></div><div><i>✓</i><span>Nenhum bloqueio sem aviso e direito de defesa. Avaliações fora da curva não contam.</span></div><div><i>✓</i><span>Clientes que você mesma trouxer para a Belê: 0% de taxa.</span></div></div>
   </div>`;
