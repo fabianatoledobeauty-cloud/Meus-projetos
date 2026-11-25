@@ -103,3 +103,23 @@ Narração do final (22,5 a 29,5s): (1 segundo de silêncio) "E só quem estiver
 
 Texto do anúncio: Você reconhece esse som? Ele é o ritmo do meu método, e pouquíssimas pessoas vão ter acesso ao que eu criei com ele. Só quem estiver no grupo da Black das Blacks. Toca em Saiba mais e entra no grupo VIP.
 Botão do anúncio: Saiba mais (ou Enviar mensagem, se o link for do WhatsApp).
+
+---
+
+## Tráfego D: Cicatrização ([[2026-11-25 Trafego D - Cicatrizacao.mp4]], 32s)
+
+Narração para gravar:
+
+> Dá pra acreditar que esse lábio está cicatrizado?
+>
+> (antes e depois) Olha o antes... e cicatrizado.
+>
+> Eu sei que te falaram que a micropigmentação labial cicatriza com só vinte, trinta por cento da cor.
+>
+> Isso é porque ainda não te ensinaram amplitude, cadência, ritmo e profundidade.
+>
+> Esse é o segredo das minhas alunas. E é por isso que elas saem entregando resultados iguais aos meus.
+>
+> E esse segredo tem nome: Cadência.
+>
+> (1 segundo de silêncio) Só quem estiver no grupo da Black das Blacks vai ter acesso. Toca no botão e entra agora.
