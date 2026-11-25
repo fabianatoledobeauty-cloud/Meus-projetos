@@ -152,7 +152,7 @@ h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0}
 .stars{display:flex;gap:4px}
 .stars button{border:0;background:none;font-size:26px;padding:0 2px;color:var(--line);line-height:1}
 .stars button.on{color:var(--accent)}
-.nav{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);background:var(--surface)}
+.nav{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);background:var(--surface)}
 .nav button{border:0;background:none;padding:10px 4px 12px;font-size:12px;font-weight:600;color:var(--ink-2);display:flex;flex-direction:column;align-items:center;gap:3px}
 .nav button svg{width:22px;height:22px}
 .nav button.on{color:var(--accent)}
@@ -182,6 +182,16 @@ h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0}
 .acad{display:inline-block;margin-top:4px;font-size:11px;font-weight:700;color:var(--accent);background:var(--accent-soft);padding:2px 7px;border-radius:6px}
 .feat{margin-top:20px;padding:14px;border-radius:16px;border:1px solid var(--accent);background:var(--surface)}
 .grow{margin-top:10px}
+.agenda{display:grid;gap:10px}
+.arow b{font-size:13px;display:block;margin-bottom:4px}
+.hrs{display:grid;grid-template-columns:repeat(13,minmax(0,1fr));gap:3px}
+.h{border:0;border-radius:5px;padding:7px 0;font-size:10.5px;font-weight:600;font-variant-numeric:tabular-nums}
+.h.fr{background:var(--now-soft);color:var(--now)}
+.h.bk{background:var(--accent);color:var(--accent-ink);cursor:default}
+.h.bl{background:var(--line);color:var(--ink-2);text-decoration:line-through}
+.legend{display:flex;gap:14px;margin-top:8px;font-size:12px;color:var(--ink-2)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.legend i.fr{background:var(--now-soft);border:1px solid var(--now)}.legend i.bk{background:var(--accent)}.legend i.bl{background:var(--line)}
 .vchips{display:flex;flex-wrap:wrap;gap:6px}
 .vchips span{font-size:11.5px;font-weight:600;color:var(--now);background:var(--now-soft);padding:3px 8px;border-radius:999px}
 .kv{display:flex;justify-content:space-between;gap:10px;font-size:13.5px;padding:6px 0}
@@ -200,7 +210,8 @@ h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0}
         <li>Abra o pedido, confira o preço e quanto vai para as profissionais, e toque em <b>Chamar agora</b>.</li>
         <li>Acompanhe a chegada, use o PIN e avalie no fim.</li>
         <li>Na aba <b>Profissional</b>, veja o app do outro lado: pedido chegando com o valor líquido já calculado, selo da Academy, impulsionamento e cursos com desconto.</li>
-        <li>Na categoria <b>Micropigmentação</b>, veja como funcionam os serviços feitos no estúdio.</li>
+        <li>Na categoria <b>Micropigmentação</b>, veja como funcionam os serviços feitos no estúdio. No pedido, troque <b>Onde</b> para “Num estúdio perto”.</li>
+        <li>Na aba <b>Estúdio</b>, veja o lado de quem aluga a maca: agenda por hora, preço e regras.</li>
       </ol>
     </div>
     <div>
@@ -218,6 +229,7 @@ h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0}
         <div class="diff"><b>Garantia Belê</b><span>Profissional cancelou? Outra é chamada na hora, sem você abrir chamado. Não ficou bom? Retoque grátis em 7 dias.</span><em>No-show e reembolso lento: queixas nº 1 e 2</em></div>
         <div class="diff"><b>Selo F.Tolledo Academy</b><span>Alunas formadas ganham selo, vitrine em destaque e 30 dias de impulsionamento grátis. Destaque só com nota alta.</span><em>Quem está começando consegue as primeiras clientes</em></div>
         <div class="diff"><b>Formação dentro do app</b><span>O app mostra a demanda do bairro e indica o curso certo, com desconto na Academy e em escolas parceiras.</span><em>Ninguém liga demanda real a formação</em></div>
+        <div class="diff"><b>Belê Espaços</b><span>Estúdios alugam maca por hora. Cliente que não quer receber ninguém vai a um estúdio perto. Profissional sem estúdio atende mesmo assim.</span><em>Maca parada vira renda</em></div>
         <div class="diff"><b>Justa com a profissional</b><span>Nenhum bloqueio sem direito de defesa. Notas fora da curva não derrubam ninguém. Pix na hora.</span><em>Bloqueio sem explicação é a maior queixa delas</em></div>
       </div>
     </div>
@@ -259,8 +271,13 @@ const PROS={
  rosto:{name:"Renata A.",ini:"RA",color:"#5B4BA8",spec:"Sobrancelha e maquiagem",rate:"4,9",n:205,km:"2,6 km",eta:39,academy:true,meet:"Praça Benedito Calixto",car:"Kwid vermelho · DPA9C33"}
 };
 const STARS=[{name:"Larissa T.",ini:"LT",color:"#A0285A",spec:"Magnific Lips e Nanoblading · estúdio em Pinheiros",rate:"5,0",n:96,km:"1,8 km",academy:true}];
+const STUDIOS=[
+ {name:"Espaço Íris",bairro:"Vila Madalena",km:"0,4 km",price:45,macas:2,feat:["Autoclave","Luz de LED","Lavatório","Ar-condicionado"],free:"Hoje 14h às 18h"},
+ {name:"Studio Lírio",bairro:"Pinheiros",km:"0,9 km",price:35,macas:3,feat:["Autoclave","Lavatório","Maca elétrica"],free:"Hoje 16h às 20h"},
+ {name:"Casa Jasmim Estética",bairro:"Perdizes",km:"2,2 km",price:30,macas:1,feat:["Lavatório","Luz de LED"],free:"Amanhã 9h às 13h"}];
+const studioCard=(st,i,sel)=>`<button class="opt ${sel?"on":""}" data-a="studio" data-v="${i}"><span class="radio"></span><span><b>${st.name}</b><small>${st.bairro} · ${st.km} · livre ${st.free}</small><span class="acad" style="color:var(--now);background:var(--now-soft)">Licença sanitária verificada</span></span><span class="price-t" style="font-size:12px;text-align:right">${st.feat[0]}</span></button>`;
 const SLOTS=["Hoje 19:00","Hoje 20:30","Amanhã 08:00","Amanhã 10:00","Amanhã 14:00","Sáb 09:00"];
-const S={view:"home",mode:"agora",cat:"Tudo",q:"",cart:{},svc:null,opt:0,slot:SLOTS[0],pay:"pix",transp:"bele",pref:"rapida",matched:false,stars:{},tip:0,online:true,reqLeft:30,reqState:"pending"};
+const S={view:"home",mode:"agora",cat:"Tudo",q:"",cart:{},svc:null,opt:0,slot:SLOTS[0],pay:"pix",transp:"bele",where:"casa",studio:0,pref:"rapida",matched:false,stars:{},tip:0,online:true,reqLeft:30,reqState:"pending"};
 let timers=[];
 const $s=document.getElementById("screen"),$n=document.getElementById("nav");
 const fmt=v=>v.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
@@ -278,7 +295,7 @@ function totals(){
   const skills=[...new Set(items.map(i=>i.s.skill))];
   const urg=S.mode==="agora"?9.9*skills.length:0;
   const rides=skills.map(k=>({p:PROS[k],one:uber(kmN(PROS[k]))}));
-  const transp=S.transp==="bele"?rides.reduce((a,x)=>a+x.one*2,0):0;
+  const transp=S.where==="casa"&&S.transp==="bele"?rides.reduce((a,x)=>a+x.one*2,0):0;
   const total=sub-disc+urg+transp;
   const toPros=(sub-disc)*0.8+urg;
   return {items,sub,disc,urg,total,toPros,skills,rides,transp};
@@ -290,11 +307,12 @@ function toast(msg){const old=$s.parentElement.querySelector(".toast");if(old)ol
 const ICON={
  home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>',
  orders:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/></svg>',
+ studio:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="11" width="18" height="5" rx="1.5"/><path d="M6 16v4M18 16v4M7 11V8a2 2 0 0 1 2-2h2"/></svg>',
  pro:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>'
 };
 function nav(){
-  const tab=S.view==="pro"?"pro":S.view==="orders"?"orders":"home";
-  $n.innerHTML=[["home","Início"],["orders","Pedidos"],["pro","Profissional"]].map(([k,l])=>`<button data-a="tab" data-v="${k}" class="${tab===k?"on":""}" aria-current="${tab===k}">${ICON[k]}${l}</button>`).join("");
+  const tab=["pro","orders","studio"].includes(S.view)?S.view:"home";
+  $n.innerHTML=[["home","Início"],["orders","Pedidos"],["pro","Profissional"],["studio","Estúdio"]].map(([k,l])=>`<button data-a="tab" data-v="${k}" class="${tab===k?"on":""}" aria-current="${tab===k}">${ICON[k]}${l}</button>`).join("");
 }
 
 function vHome(){
@@ -329,7 +347,7 @@ function vService(){
     ${s.opts.map((o,i)=>`<button class="opt ${S.opt===i?"on":""}" data-a="opt" data-v="${i}"><span class="radio"></span><span><b>${o[0]}</b><small>Duração ${o[1]}</small></span><span class="price-t">${fmt(o[2])}</span></button>`).join("")}
     <div class="trust">${s.trust.map(x=>`<div><i>✓</i><span>${x}</span></div>`).join("")}<div><i>✓</i><span>Garantia Belê: retoque grátis em até 7 dias</span></div></div>
   </div>
-  ${s.studio?`<div class="pad" style="padding-top:0"><div class="share" style="background:var(--accent-soft)"><b style="color:var(--accent)">Feito no estúdio da profissional.</b> Micropigmentação exige ambiente com licença sanitária, por isso não é feita em domicílio. O app mostra estúdios perto de você.</div>${STARS.map(proCard).join("")}</div>
+  ${s.studio?`<div class="pad" style="padding-top:0"><div class="share" style="background:var(--accent-soft)"><b style="color:var(--accent)">Feito no estúdio da profissional.</b> Micropigmentação exige ambiente com licença sanitária, por isso não é feita em domicílio. Escolha um estúdio licenciado perto de você.</div><div style="margin-top:10px">${STUDIOS.map((st,i)=>studioCard(st,i,S.studio===i)).join("")}</div><div class="label">Profissional certificada</div>${STARS.map(proCard).join("")}</div>
   <div class="cartbar"><button class="btn center" data-a="toast" data-m="No app real: escolha dia e hora da avaliação no estúdio. O retoque é agendado sozinho depois.">Agendar avaliação gratuita</button></div>`
   :`<div class="cartbar"><button class="btn" data-a="addsvc"><span>Adicionar ao pedido</span><span>${fmt(s.opts[S.opt][2])}</span></button></div>`}`;
 }
@@ -341,6 +359,12 @@ function vCart(){
   <div class="pad" style="padding-top:4px">
     <div class="list">${t.items.map(i=>`<div class="row"><div style="min-width:0"><b>${i.s.name}</b><small>${i.label} · ${i.dur}</small><br><button class="rm" data-a="remove" data-v="${i.s.id}">Remover</button></div><span class="price-t">${fmt(i.price)}</span></div>`).join("")}</div>
     ${t.skills.length>1?`<div class="share" style="background:var(--accent-soft)"><b style="color:var(--accent)">${t.skills.length} profissionais</b> vão atender você. A Belê organiza a ordem para você não ficar esperando ninguém.</div>`:""}
+    <div class="label">Onde</div>
+    <div class="seg">
+      <button class="${S.where==="casa"?"on":""}" data-a="where" data-v="casa"><span>Na minha casa</span><small>a profissional vai até você</small></button>
+      <button class="${S.where==="estudio"?"on":""}" data-a="where" data-v="estudio"><span>Num estúdio perto</span><small>sem receber ninguém em casa</small></button>
+    </div>
+    ${S.where==="estudio"?`<div style="margin-top:10px">${STUDIOS.map((st,i)=>studioCard(st,i,S.studio===i)).join("")}</div><div class="share" style="background:var(--surface-2)">Mesmo preço do atendimento em casa. O aluguel da maca já está incluso e é pago pela Belê ao estúdio.</div>`:""}
     <div class="label">Quando</div>
     <div class="seg">
       <button class="${S.mode==="agora"?"on now":""}" data-a="mode" data-v="agora"><span><span class="dot"></span>Agora</span><small>~45 min</small></button>
@@ -351,10 +375,11 @@ function vCart(){
     <button class="opt ${S.pref==="rapida"?"on":""}" data-a="pref" data-v="rapida"><span class="radio"></span><span><b>Quem chega mais rápido</b><small>Só profissionais com nota 4,7 ou mais</small></span><span></span></button>
     <button class="opt ${S.pref==="fav"?"on":""}" data-a="pref" data-v="fav"><span class="radio"></span><span><b>Minhas favoritas primeiro</b><small>Se não puderem, a Belê chama a próxima melhor</small></span><span></span></button>
     <button class="opt ${S.pref==="mulher"?"on":""}" data-a="pref" data-v="mulher"><span class="radio"></span><span><b>Só profissionais mulheres</b><small>Vale para todos os serviços do pedido</small></span><span></span></button>
-    <div class="label">Deslocamento da profissional</div>
-    <button class="opt ${S.transp==="bele"?"on":""}" data-a="transp" data-v="bele"><span class="radio"></span><span><b>A Belê chama o Uber (recomendado)</b><small>Ida e volta incluídas no pedido. Corrida acompanhada pela central. Se sair mais barato, a diferença volta para você.</small></span><span class="price-t">${fmt(t.rides.reduce((a,x)=>a+x.one*2,0))}</span></button>
-    <button class="opt ${S.transp==="cliente"?"on":""}" data-a="transp" data-v="cliente"><span class="radio"></span><span><b>Eu mesma peço o Uber</b><small>Pelo seu app, em “pedir para outra pessoa”. Por segurança, a busca é num ponto de encontro escolhido por ela, nunca na casa dela.</small></span><span class="price-t" style="font-size:12px;font-weight:600;text-align:right">fora do<br>pedido</span></button>
-    ${S.transp==="cliente"?`<div class="share" style="background:var(--surface-2)">${t.rides.map(x=>`<b style="color:var(--ink)">${x.p.name}</b>: partida em <b style="color:var(--ink)">${x.p.meet}</b>. Volta: até o mesmo ponto.`).join("<br>")}</div>`:""}
+    ${S.where==="casa"?`    <div class="label">Deslocamento da profissional</div>
+    <button class="opt \${S.transp==="bele"?"on":""}" data-a="transp" data-v="bele"><span class="radio"></span><span><b>A Belê chama o Uber (recomendado)</b><small>Ida e volta incluídas no pedido. Corrida acompanhada pela central. Se sair mais barato, a diferença volta para você.</small></span><span class="price-t">\${fmt(t.rides.reduce((a,x)=>a+x.one*2,0))}</span></button>
+    <button class="opt \${S.transp==="cliente"?"on":""}" data-a="transp" data-v="cliente"><span class="radio"></span><span><b>Eu mesma peço o Uber</b><small>Pelo seu app, em “pedir para outra pessoa”. Por segurança, a busca é num ponto de encontro escolhido por ela, nunca na casa dela.</small></span><span class="price-t" style="font-size:12px;font-weight:600;text-align:right">fora do<br>pedido</span></button>
+    \${S.transp==="cliente"?\`<div class="share" style="background:var(--surface-2)">\${t.rides.map(x=>\`<b style="color:var(--ink)">\${x.p.name}</b>: partida em <b style="color:var(--ink)">\${x.p.meet}</b>. Volta: até o mesmo ponto.\`).join("<br>")}</div>\`:""}
+`:""}
     <div class="label">Pagamento</div>
     <div class="slots">${[["pix","Pix"],["card","Cartão"],["vr","Cartão final 4021"]].map(([k,l])=>`<button class="chip ${S.pay===k?"on":""}" data-a="pay" data-v="${k}">${l}</button>`).join("")}</div>
     <div class="label">Resumo</div>
@@ -362,7 +387,7 @@ function vCart(){
       <div><span class="muted">Serviços</span><span>${fmt(t.sub)}</span></div>
       ${t.disc?`<div><span class="muted">Desconto combo (10%)</span><span>− ${fmt(t.disc)}</span></div>`:""}
       ${t.urg?`<div><span class="muted">Atendimento agora (${t.skills.length}× ${fmt(9.9)})</span><span>${fmt(t.urg)}</span></div>`:""}
-      ${S.transp==="bele"?t.rides.map(x=>`<div><span class="muted">Uber ida e volta · ${x.p.name} (${x.p.km})</span><span>${fmt(x.one*2)}</span></div>`).join(""):`<div><span class="muted">Uber</span><span>por sua conta</span></div>`}
+      ${S.where==="estudio"?`<div><span class="muted">Deslocamento</span><span>sem Uber</span></div>`:S.transp==="bele"?t.rides.map(x=>`<div><span class="muted">Uber ida e volta · ${x.p.name} (${x.p.km})</span><span>${fmt(x.one*2)}</span></div>`).join(""):`<div><span class="muted">Uber</span><span>por sua conta</span></div>`}
       <div class="total"><span>Total</span><span>${fmt(t.total)}</span></div>
     </div>
     <div class="share"><b>${fmt(t.toPros)}</b> desse valor vai direto para as profissionais (80% dos serviços + 100% da taxa de agora). Você só é cobrada quando elas chegarem e você informar o PIN.</div>
@@ -377,10 +402,11 @@ function vMatching(){
     return `<div class="pad center" style="padding-top:40px"><div class="radar"><span></span><span></span><span></span><b>B</b></div>
     <h2 style="font-size:22px">Procurando profissionais perto de você</h2><p style="color:var(--ink-2)">Convidando quem está online a até 5 km. Cada uma já vê o valor que vai receber.</p></div>`;
   }
-  return `<div class="pad" style="padding-top:28px"><span class="tag now">Confirmado</span><h2 style="font-size:24px;margin:10px 0 6px">${S.mode==="agora"?"Suas profissionais estão a caminho":"Agendado para "+S.slot}</h2>
+  return `<div class="pad" style="padding-top:28px"><span class="tag now">Confirmado</span><h2 style="font-size:24px;margin:10px 0 6px">${S.where==="estudio"?"Te esperamos no "+STUDIOS[S.studio].name:S.mode==="agora"?"Suas profissionais estão a caminho":"Agendado para "+S.slot}</h2>
+  ${S.where==="estudio"?`<p style="margin:0 0 6px;font-size:13.5px"><b>${STUDIOS[S.studio].bairro}</b> · ${STUDIOS[S.studio].km} de você · ${S.mode==="agora"?"em ~40 min":S.slot}. Endereço completo e como chegar no app.</p>`:""}
   <p style="color:var(--ink-2);margin:0 0 10px">${t.skills.length>1?"A Belê organizou a ordem para ninguém ficar esperando.":"Você recebe aviso quando ela sair."}</p>
-  ${t.skills.map(k=>{const p=PROS[k],srv=t.items.filter(i=>i.s.skill===k).map(i=>i.s.name).join(" + ");return `<div class="pro"><div class="av" style="background:${p.color}">${p.ini}</div><div><b>${p.name}</b><small>${srv}</small><div class="ok">★ ${p.rate} · ${p.n} atendimentos</div></div><div class="rating" style="color:var(--now)">${S.mode==="agora"?p.eta+" min":""}</div></div>`}).join("")}
-  <div style="margin-top:16px">${S.mode==="agora"?`<button class="btn now center" data-a="go" data-v="track">Acompanhar no mapa</button>`:`<button class="btn center" data-a="finish-sched">Concluir</button>`}</div></div>`;
+  ${t.skills.map(k=>{const p=PROS[k],srv=t.items.filter(i=>i.s.skill===k).map(i=>i.s.name).join(" + ");return `<div class="pro"><div class="av" style="background:${p.color}">${p.ini}</div><div><b>${p.name}</b><small>${srv}</small><div class="ok">★ ${p.rate} · ${p.n} atendimentos</div></div><div class="rating" style="color:var(--now)">${S.mode==="agora"&&S.where==="casa"?p.eta+" min":""}</div></div>`}).join("")}
+  <div style="margin-top:16px">${S.where==="casa"&&S.mode==="agora"?`<button class="btn now center" data-a="go" data-v="track">Acompanhar no mapa</button>`:`<button class="btn center" data-a="finish-sched">Concluir</button>`}</div></div>`;
 }
 
 function vTrack(){
@@ -455,6 +481,9 @@ function vPro(){
   <div class="sec"><h2>Ganhos da semana</h2><span>líquido</span></div>
   <div class="bars">${week.map(([d,v])=>`<div class="${d==="Hoje"?"today":""}"><i style="height:${Math.max(6,v/mx*85)}%"></i>${d.trim()}</div>`).join("")}</div>
   <div class="card" style="margin-top:14px"><div class="kv"><span>Disponível para saque</span><b>${fmt(1180.4)}</b></div><button class="btn now center" data-a="toast" data-m="No app real: Pix enviado na hora, sem taxa.">Sacar via Pix agora · grátis</button></div>
+  <div class="sec"><h2>Sem estúdio? Alugue uma maca</h2><span>por hora</span></div>
+  <div class="list">${STUDIOS.map(st=>`<div class="row"><div style="min-width:0"><b>${st.name}</b><small>${st.bairro} · ${st.feat.join(", ")} · livre ${st.free}</small></div><button class="chip" data-a="toast" data-m="No app real: escolha o horário. O valor é descontado do atendimento, sem pagar adiantado.">${fmt(st.price)}/h</button></div>`).join("")}</div>
+  <small style="color:var(--ink-2)">Pedidos de clientes que preferem estúdio já chegam com a sala reservada.</small>
   <div class="sec"><h2>Crescer na Belê</h2><span>nível Prata</span></div>
   <div class="card grow"><div class="kv" style="padding-top:0"><b>Selo F.Tolledo Academy</b><span class="ok">Ativo</span></div><small style="color:var(--ink-2)">Seu perfil aparece em “Formadas F.Tolledo Academy” e tem preferência quando duas profissionais empatam em distância e nota.</small></div>
   <div class="card grow"><div class="kv" style="padding-top:0"><b>Impulsionar perfil</b><span>18 dias grátis restantes</span></div><small style="color:var(--ink-2)">Presente de formatura: 30 dias de destaque. Depois, a partir de ${fmt(4.9)} por dia. Só para quem mantém nota 4,7 ou mais.</small><button class="btn ghost" style="margin-top:10px" data-a="toast" data-m="No app real: escolha bairros e dias para aparecer em destaque.">Escolher bairros e dias</button></div>
@@ -466,8 +495,26 @@ function vPro(){
   </div>`;
 }
 
+const HOURS=[8,9,10,11,12,13,14,15,16,17,18,19,20];
+const BOOK={"0":{9:"Larissa T.",10:"Larissa T.",11:"Larissa T.",15:"Camila S.",16:"Camila S."},"1":{8:"x",13:"Renata A.",14:"Renata A."}};
+function vStudio(){
+  const st=STUDIOS[1];S.blk=S.blk||{};S.sprice=S.sprice||st.price;
+  return `<div class="pro-hero"><div style="display:flex;justify-content:space-between;align-items:center"><div class="logo">Belê <span style="font-size:14px;font-weight:600;opacity:.7">Espaços</span></div><span style="font-size:13px;opacity:.8">${st.name}</span></div>
+  <div class="earn"><div><small>Este mês</small><b>${fmt(2310)}</b></div><div><small>Ocupação</small><b>46%</b></div><div><small>Nota</small><b>★ 4,9</b></div></div></div>
+  <div class="pad">
+  <div class="card"><div class="kv" style="padding-top:0"><b>Licença sanitária</b><span class="ok">Verificada · válida até 08/2027</span></div><small style="color:var(--ink-2)">Sem licença válida, seus horários saem do ar automaticamente.</small></div>
+  <div class="sec"><h2>Hoje</h2><span>toque para bloquear</span></div>
+  <div class="agenda">${["Maca 1","Maca 2"].map((m,mi)=>`<div class="arow"><b>${m}</b><div class="hrs">${HOURS.map(h=>{const bk=BOOK[mi]&&BOOK[mi][h];const blk=S.blk[mi+"-"+h]||bk==="x";const cls=bk&&bk!=="x"?"bk":blk?"bl":"fr";return `<button class="h ${cls}" ${cls==="bk"?"disabled":""} data-a="blk" data-v="${mi}-${h}" title="${h}h ${cls==="bk"?bk:cls==="bl"?"bloqueado":"livre"}" aria-label="${m} ${h}h ${cls==="bk"?"reservado por "+bk:cls==="bl"?"bloqueado":"livre"}">${h}</button>`}).join("")}</div></div>`).join("")}</div>
+  <div class="legend"><span><i class="fr"></i>Livre</span><span><i class="bk"></i>Reservado</span><span><i class="bl"></i>Bloqueado</span></div>
+  <div class="card" style="margin-top:14px"><div class="kv" style="padding-top:0"><b>Preço por hora</b><span style="display:flex;gap:8px;align-items:center"><button class="back" data-a="sprice" data-v="-5" aria-label="Diminuir">−</button><b class="price-t">${fmt(S.sprice)}</b><button class="back" data-a="sprice" data-v="5" aria-label="Aumentar">+</button></span></div><small style="color:var(--ink-2)">Média dos estúdios do bairro: ${fmt(38)}/h. Você recebe 85% via Pix no dia seguinte.</small></div>
+  <div class="label">Próximas reservas</div>
+  ${[["Larissa T.","Hoje 9h às 12h","Magnific Lips · cliente Belê"],["Camila S.","Hoje 15h às 17h","Massagem · cliente dela"],["Renata A.","Amanhã 13h às 15h","Nanoblading · cliente Belê"]].map(([n,h,d])=>`<div class="row"><div style="min-width:0"><b>${n}</b><small>${d}</small></div><small style="font-weight:600">${h}</small></div>`).join("")}
+  <div class="label">Regras que protegem seu espaço</div>
+  <div class="trust" style="margin-top:0"><div><i>✓</i><span>Só profissionais verificadas e com formação comprovada no serviço.</span></div><div><i>✓</i><span>Checklist com fotos da sala na entrada e na saída.</span></div><div><i>✓</i><span>Material perfurocortante descartado no coletor do estúdio, com controle.</span></div><div><i>✓</i><span>Seguro contra danos ao equipamento.</span></div></div>
+  </div>`;
+}
 function render(){
-  const V={home:vHome,service:vService,cart:vCart,match:vMatching,track:vTrack,done:vDone,orders:vOrders,pro:vPro}[S.view];
+  const V={home:vHome,service:vService,cart:vCart,match:vMatching,track:vTrack,done:vDone,orders:vOrders,pro:vPro,studio:vStudio}[S.view];
   $s.innerHTML=V();nav();
   const q=document.getElementById("q");
   if(q)q.addEventListener("input",e=>{S.q=e.target.value;const pos=e.target.selectionStart;render();const n=document.getElementById("q");n.focus();n.setSelectionRange(pos,pos)});
@@ -490,6 +537,10 @@ document.getElementById("phone").addEventListener("click",e=>{
     case "pref": S.pref=v;render();break;
     case "pay": S.pay=v;render();break;
     case "transp": S.transp=v;render();break;
+    case "where": S.where=v;render();break;
+    case "studio": S.studio=+v;render();break;
+    case "blk": S.blk[v]=!S.blk[v];render();break;
+    case "sprice": S.sprice=Math.max(15,S.sprice+ +v);render();break;
     case "confirm": S.matched=false;go("match");break;
     case "star": S.stars[b.dataset.k]=+v;render();break;
     case "tip": S.tip=+v;render();break;
