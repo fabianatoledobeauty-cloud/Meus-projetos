@@ -1,0 +1,463 @@
+<title>Belê</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap">
+<style>
+/* Layout: explanation column + phone-sized live app; on phones the app fills the screen and the notes follow below */
+:root{
+  --bg:#F6F1F3;          /* page ground, blush-tinted neutral */
+  --surface:#FFFFFF;
+  --surface-2:#F9F3F5;
+  --ink:#24131D;         /* aubergine ink */
+  --ink-2:#6B5762;
+  --line:#EADDE3;
+  --accent:#C2185B;      /* Belê rosa */
+  --accent-ink:#FFFFFF;
+  --accent-soft:#FBE3EC;
+  --now:#0B7A6C;         /* "Agora" live state */
+  --now-soft:#DDF3EF;
+  --warn:#A65B00;
+  --map-ground:#EFE6EA;
+  --map-street:#FFFFFF;
+  --shadow:0 1px 2px rgba(36,19,29,.06),0 8px 24px rgba(36,19,29,.08);
+  --f-display:"Bricolage Grotesque","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --f-body:"DM Sans","Helvetica Neue",Arial,system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#140C11;--surface:#1F141A;--surface-2:#281A22;--ink:#F7ECF1;--ink-2:#BCA6B1;--line:#3A2832;
+  --accent:#F06292;--accent-ink:#1A0B12;--accent-soft:#3D1B2A;--now:#4FD1BD;--now-soft:#123530;--warn:#F2B35B;
+  --map-ground:#2A1D24;--map-street:#3B2A33;--shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35);color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#140C11;--surface:#1F141A;--surface-2:#281A22;--ink:#F7ECF1;--ink-2:#BCA6B1;--line:#3A2832;
+  --accent:#F06292;--accent-ink:#1A0B12;--accent-soft:#3D1B2A;--now:#4FD1BD;--now-soft:#123530;--warn:#F2B35B;
+  --map-ground:#2A1D24;--map-street:#3B2A33;--shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35);color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.45;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0}
+.wrap{max-width:1040px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:48px;align-items:start}
+@media (max-width:860px){.wrap{grid-template-columns:minmax(0,1fr)}.phone{order:-1}}
+
+/* ---------- notes column ---------- */
+.notes{display:flex;flex-direction:column;gap:22px;padding-top:8px;min-width:0}
+.brand{font-family:var(--f-display);font-weight:800;font-size:56px;letter-spacing:-.03em;line-height:.9;color:var(--accent)}
+.brand small{display:block;font-size:17px;letter-spacing:0;color:var(--ink-2);font-weight:500;margin-top:10px;font-family:var(--f-body)}
+.notes p{margin:0;max-width:60ch;color:var(--ink-2)}
+.notes h3{font-size:18px;margin-bottom:10px}
+.diffs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media (max-width:520px){.diffs{grid-template-columns:minmax(0,1fr)}}
+.diff{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;min-width:0}
+.diff b{display:block;font-size:14px;margin-bottom:2px}
+.diff span{font-size:13px;color:var(--ink-2)}
+.diff em{font-style:normal;display:block;font-size:11.5px;color:var(--accent);margin-top:6px;letter-spacing:.02em}
+.steps{margin:0;padding-left:20px;color:var(--ink-2);display:grid;gap:4px}
+.disclaimer{font-size:12.5px;color:var(--ink-2);border-top:1px solid var(--line);padding-top:12px}
+
+/* ---------- phone ---------- */
+.phone{position:sticky;top:20px;width:100%;max-width:400px;justify-self:center;background:var(--surface);border-radius:34px;
+  border:1px solid var(--line);box-shadow:var(--shadow);overflow:hidden;height:min(820px,calc(100vh - 40px));min-height:640px;display:flex;flex-direction:column}
+@media (max-width:860px){.phone{position:relative;top:0;border-radius:24px;height:auto;min-height:0;overflow:clip}
+  .nav{position:sticky;bottom:0;z-index:4;padding-bottom:env(safe-area-inset-bottom,0px)}
+  .cartbar{bottom:62px}
+  .toast{position:fixed;bottom:calc(80px + env(safe-area-inset-bottom,0px));max-width:420px;margin:0 auto}}
+.screen{flex:1;overflow-y:auto;overflow-x:hidden;position:relative;scrollbar-width:thin}
+@media (max-width:860px){.screen{overflow:visible}}
+.pad{padding:16px 18px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:18px 18px 6px}
+.logo{font-family:var(--f-display);font-weight:800;font-size:26px;color:var(--accent);letter-spacing:-.02em}
+.addr{display:flex;flex-direction:column;align-items:flex-end;font-size:12px;color:var(--ink-2);background:none;border:0;padding:0;text-align:right}
+.addr b{color:var(--ink);font-size:13px}
+.seg{display:grid;grid-template-columns:1fr 1fr;background:var(--surface-2);border:1px solid var(--line);border-radius:14px;padding:4px;gap:4px}
+.seg button{border:0;background:none;border-radius:10px;padding:9px 6px;font-weight:600;font-size:14px;color:var(--ink-2);display:flex;flex-direction:column;align-items:center;line-height:1.2}
+.seg button small{font-weight:500;font-size:11.5px}
+.seg button.on{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+.seg button.on.now{color:var(--now)}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--now);margin-right:6px;vertical-align:1px;animation:pulse 1.6s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--now) 50%,transparent)}100%{box-shadow:0 0 0 8px transparent}}
+.search{width:100%;border:1px solid var(--line);background:var(--surface-2);border-radius:12px;padding:11px 14px;font:inherit;color:var(--ink)}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:2px 18px 4px;margin:0 -18px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 13px;font-size:13.5px;font-weight:500}
+.chip.on{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.sec{display:flex;align-items:baseline;justify-content:space-between;margin:20px 0 10px}
+.sec h2{font-size:18px}
+.sec span{font-size:12.5px;color:var(--ink-2)}
+.combos{display:flex;gap:10px;overflow-x:auto;margin:0 -18px;padding:0 18px 4px;scrollbar-width:none}
+.combo{flex:none;width:210px;border-radius:16px;padding:14px;background:var(--accent-soft);border:0;text-align:left;display:flex;flex-direction:column;gap:6px}
+.combo h3{font-size:16px}
+.combo p{margin:0;font-size:12.5px;color:var(--ink-2)}
+.combo .price{font-weight:700;font-size:14px;display:flex;gap:6px;align-items:baseline}
+.combo .price s{font-weight:400;color:var(--ink-2);font-size:12px}
+.tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:3px 7px;border-radius:6px;background:var(--surface);color:var(--accent);align-self:flex-start}
+.tag.now{color:var(--now);background:var(--now-soft)}
+.list{display:flex;flex-direction:column}
+.row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line);background:none;border-left:0;border-right:0;border-top:0;text-align:left;width:100%}
+.row:last-child{border-bottom:0}
+.row b{font-weight:600;display:block}
+.row small{color:var(--ink-2);font-size:12.5px}
+.add{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--accent);color:var(--accent);background:none;font-size:20px;line-height:1;display:grid;place-items:center;font-weight:600}
+.add.in{background:var(--accent);color:var(--accent-ink)}
+.pro{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px 0}
+.av{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-family:var(--f-display);color:#fff;font-size:15px}
+.pro b{display:block;font-weight:600}
+.pro small{color:var(--ink-2);font-size:12.5px}
+.ok{font-size:11.5px;color:var(--now);font-weight:600}
+.rating{font-weight:700;font-size:13px;font-variant-numeric:tabular-nums}
+.cartbar{position:sticky;bottom:0;padding:12px 18px 14px;background:linear-gradient(to top,var(--surface) 70%,transparent)}
+.btn{width:100%;border:0;border-radius:14px;padding:15px 18px;font-weight:700;font-size:15.5px;background:var(--accent);color:var(--accent-ink);display:flex;justify-content:space-between;align-items:center;gap:10px}
+.btn.now{background:var(--now);color:var(--accent-ink)}
+.btn.ghost{background:var(--surface-2);color:var(--ink);border:1px solid var(--line);justify-content:center}
+.btn.center{justify-content:center}
+.back{border:0;background:var(--surface-2);width:36px;height:36px;border-radius:50%;font-size:18px;display:grid;place-items:center}
+.head{display:flex;align-items:center;gap:12px;padding:16px 18px 8px}
+.head h2{font-size:19px}
+.opt{display:grid;grid-template-columns:20px minmax(0,1fr) auto;gap:12px;align-items:center;padding:13px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface);text-align:left;width:100%}
+.opt+.opt{margin-top:8px}
+.opt.on{border-color:var(--accent);background:var(--accent-soft)}
+.radio{width:18px;height:18px;border-radius:50%;border:2px solid var(--line)}
+.opt.on .radio{border:5px solid var(--accent)}
+.opt b{font-weight:600}
+.opt small{display:block;color:var(--ink-2);font-size:12.5px}
+.price-t{font-weight:700;font-variant-numeric:tabular-nums}
+.trust{display:grid;gap:8px;margin-top:16px;padding:14px;border-radius:12px;background:var(--surface-2);font-size:13px}
+.trust div{display:grid;grid-template-columns:18px minmax(0,1fr);gap:8px}
+.trust i{font-style:normal;color:var(--now);font-weight:700}
+.sum{display:grid;gap:7px;font-size:14px;font-variant-numeric:tabular-nums}
+.sum div{display:flex;justify-content:space-between;gap:10px}
+.sum .muted{color:var(--ink-2)}
+.sum .total{font-weight:700;font-size:17px;border-top:1px solid var(--line);padding-top:9px;margin-top:3px}
+.share{margin-top:10px;font-size:12.5px;padding:10px 12px;border-radius:10px;background:var(--now-soft);color:var(--ink)}
+.share b{color:var(--now)}
+.slots{display:flex;gap:8px;flex-wrap:wrap}
+.card{border:1px solid var(--line);border-radius:14px;padding:14px;background:var(--surface)}
+.label{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);font-weight:600;margin:18px 0 8px}
+.rm{border:0;background:none;color:var(--ink-2);font-size:12.5px;text-decoration:underline;padding:0}
+.radar{position:relative;width:180px;height:180px;margin:30px auto 10px;display:grid;place-items:center}
+.radar span{position:absolute;inset:0;border-radius:50%;border:2px solid var(--accent);opacity:0;animation:ring 2.4s infinite}
+.radar span:nth-child(2){animation-delay:.8s}.radar span:nth-child(3){animation-delay:1.6s}
+.radar b{width:64px;height:64px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-family:var(--f-display);font-size:24px}
+@keyframes ring{0%{transform:scale(.35);opacity:.9}100%{transform:scale(1);opacity:0}}
+.center{text-align:center}
+.map{width:100%;height:auto;display:block;background:var(--map-ground)}
+.eta{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.eta .big{font-family:var(--f-display);font-size:30px;font-weight:800;color:var(--now);font-variant-numeric:tabular-nums}
+.pin{font-family:var(--f-display);font-size:26px;font-weight:800;letter-spacing:.3em;font-variant-numeric:tabular-nums}
+.safety{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.safety button{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:10px 6px;font-size:12px;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:4px}
+.safety button.sos{color:var(--accent);border-color:var(--accent)}
+.stars{display:flex;gap:4px}
+.stars button{border:0;background:none;font-size:26px;padding:0 2px;color:var(--line);line-height:1}
+.stars button.on{color:var(--accent)}
+.nav{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);background:var(--surface)}
+.nav button{border:0;background:none;padding:10px 4px 12px;font-size:12px;font-weight:600;color:var(--ink-2);display:flex;flex-direction:column;align-items:center;gap:3px}
+.nav button svg{width:22px;height:22px}
+.nav button.on{color:var(--accent)}
+.toast{position:absolute;left:18px;right:18px;bottom:84px;background:var(--ink);color:var(--surface);padding:12px 14px;border-radius:12px;font-size:13.5px;z-index:5;animation:up .25s ease}
+@keyframes up{from{transform:translateY(8px);opacity:0}to{transform:none;opacity:1}}
+/* pro mode */
+.pro-hero{background:var(--ink);color:var(--surface);padding:20px 18px 18px;display:grid;gap:14px}
+.pro-hero .logo{color:var(--surface)}
+.switch{display:flex;align-items:center;gap:10px;border:0;background:none;color:inherit;font-weight:600;padding:0}
+.switch i{width:44px;height:26px;border-radius:999px;background:color-mix(in srgb,var(--surface) 30%,transparent);position:relative;transition:background .2s}
+.switch i::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:var(--surface);transition:transform .2s}
+.switch.on i{background:var(--now)}
+.switch.on i::after{transform:translateX(18px)}
+.earn{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.earn div{min-width:0}
+.earn small{display:block;font-size:11.5px;opacity:.75}
+.earn b{font-family:var(--f-display);font-size:20px;font-variant-numeric:tabular-nums}
+.req{border:2px solid var(--now);border-radius:16px;padding:16px;background:var(--surface);display:grid;gap:10px}
+.req .money{font-family:var(--f-display);font-size:30px;font-weight:800;color:var(--now);font-variant-numeric:tabular-nums}
+.timer{height:6px;border-radius:999px;background:var(--line);overflow:hidden}
+.timer i{display:block;height:100%;background:var(--now);transition:width 1s linear}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.bars{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;align-items:end;height:110px;padding-top:6px}
+.bars div{display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;justify-content:flex-end;font-size:11px;color:var(--ink-2)}
+.bars i{display:block;width:100%;border-radius:6px 6px 2px 2px;background:var(--accent)}
+.bars div.today i{background:var(--now)}
+.kv{display:flex;justify-content:space-between;gap:10px;font-size:13.5px;padding:6px 0}
+.kv span{color:var(--ink-2)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+  <section class="notes" aria-label="Sobre o protótipo">
+    <div class="brand">Belê<small>Beleza e bem-estar em casa, agora. Protótipo navegável.</small></div>
+    <p>Peça um ou vários serviços de uma vez (massagem e progressiva, por exemplo). A Belê encontra profissionais verificadas perto de você, mostra o preço final antes de confirmar e você acompanha a chegada no mapa.</p>
+    <div>
+      <h3>Como testar</h3>
+      <ol class="steps">
+        <li>No modo <b>Agora</b>, adicione “Massagem relaxante” e “Progressiva sem formol”, ou toque no combo “Spa em casa”.</li>
+        <li>Abra o pedido, confira o preço e quanto vai para as profissionais, e toque em <b>Chamar agora</b>.</li>
+        <li>Acompanhe a chegada, use o PIN e avalie no fim.</li>
+        <li>Na aba <b>Profissional</b>, veja o app do outro lado: pedido chegando com o valor líquido já calculado.</li>
+      </ol>
+    </div>
+    <div>
+      <h3>O que a Belê faz diferente</h3>
+      <div class="diffs">
+        <div class="diff"><b>Agora de verdade</b><span>Profissional em ~45 min, com prazo exibido antes de confirmar. Agendar continua possível.</span><em>Concorrentes só agendam com antecedência</em></div>
+        <div class="diff"><b>Vários serviços, um pedido</b><span>Massagem + progressiva + unhas. A Belê coordena 2 ou 3 profissionais e horários.</span><em>Hoje cada serviço é um pedido separado</em></div>
+        <div class="diff"><b>Preço final, sem surpresa</b><span>Tabela por comprimento de cabelo e duração. Nada a combinar na porta.</span><em>Reclamação comum: valor muda na hora</em></div>
+        <div class="diff"><b>Cobrança só na chegada</b><span>O valor só é cobrado quando a profissional chega e você informa o PIN.</span><em>Contra atraso e “no-show”</em></div>
+        <div class="diff"><b>Profissional ganha 80%</b><span>O app mostra para a cliente quanto vai para quem atende. Taxa de urgência e gorjeta vão 100% para ela.</span><em>Concorrente líder retém 35–40%</em></div>
+        <div class="diff"><b>Segurança dos dois lados</b><span>Identidade e antecedentes checados, PIN, trajeto compartilhável, botão de emergência e cliente avaliada também.</span><em>Atendimento dentro de casa exige isso</em></div>
+        <div class="diff"><b>Produto transparente</b><span>Progressiva sem formol, com registro Anvisa mostrado antes de aplicar.</span><em>Risco real à saúde no setor</em></div>
+        <div class="diff"><b>Garantia Belê</b><span>Profissional cancelou? Outra é chamada na hora, sem você abrir chamado. Não ficou bom? Retoque grátis em 7 dias.</span><em>No-show e reembolso lento: queixas nº 1 e 2</em></div>
+        <div class="diff"><b>Justa com a profissional</b><span>Nenhum bloqueio sem direito de defesa. Notas fora da curva não derrubam ninguém. Pix na hora.</span><em>Bloqueio sem explicação é a maior queixa delas</em></div>
+      </div>
+    </div>
+    <p class="disclaimer">Protótipo para validação. Nomes de profissionais, endereço, preços e prazos são exemplos e ainda não refletem operação real. O mapa é ilustrativo.</p>
+  </section>
+
+  <div class="phone" id="phone">
+    <div class="screen" id="screen"></div>
+    <nav class="nav" id="nav" aria-label="Navegação do app"></nav>
+  </div>
+</div>
+
+<script>
+(function(){
+const SERVICES=[
+ {id:"prog",cat:"Cabelo",skill:"cabelo",name:"Progressiva sem formol",desc:"Alisamento com ativos sem formol. A profissional mostra o rótulo e o registro Anvisa antes de aplicar.",opts:[["Cabelo curto","2h30",220],["Cabelo médio","3h",290],["Cabelo longo","3h30",360]],trust:["Produto com registro Anvisa, rótulo conferido na sua frente","Teste de mecha incluído","Leva secador, prancha e capa"]},
+ {id:"escova",cat:"Cabelo",skill:"cabelo",name:"Escova modelada",desc:"Lavagem e escova com acabamento.",opts:[["Cabelo curto","50 min",80],["Cabelo médio","1h",95],["Cabelo longo","1h15",115]],trust:["Leva lavatório portátil","Produtos profissionais inclusos"]},
+ {id:"hidrat",cat:"Cabelo",skill:"cabelo",name:"Hidratação + escova",desc:"Máscara de tratamento e escova.",opts:[["Até o ombro","1h20",140],["Abaixo do ombro","1h40",170]],trust:["Produtos profissionais inclusos"]},
+ {id:"mani",cat:"Unhas",skill:"unhas",name:"Manicure e pedicure",desc:"Cutilagem e esmaltação tradicional.",opts:[["Só manicure","40 min",40],["Manicure + pedicure","1h20",75],["Esmaltação em gel (mãos)","1h30",110]],trust:["Material esterilizado em autoclave, embalagem aberta na sua frente","Lixa e palito descartáveis"]},
+ {id:"massagem",cat:"Massagem",skill:"corpo",name:"Massagem relaxante",desc:"Massoterapeuta certificada. Leva maca dobrável, óleos, toalhas e música.",opts:[["60 minutos","1h",170],["90 minutos","1h30",230]],trust:["Formação em massoterapia verificada","Maca, lençóis e óleos inclusos","Você escolhe atendimento por mulher ou homem"]},
+ {id:"drenagem",cat:"Massagem",skill:"corpo",name:"Drenagem linfática",desc:"Técnica manual para retenção de líquido.",opts:[["60 minutos","1h",180],["Pacote 5 sessões","5 × 1h",800]],trust:["Formação verificada","Maca inclusa"]},
+ {id:"sobr",cat:"Rosto",skill:"rosto",name:"Design de sobrancelha",desc:"Medição e design com pinça e linha.",opts:[["Design","40 min",55],["Design com henna","1h",75]],trust:["Henna com registro Anvisa"]},
+ {id:"make",cat:"Rosto",skill:"rosto",name:"Maquiagem social",desc:"Para festas e eventos. Inclui cílios postiços.",opts:[["Maquiagem social","1h",180],["Maquiagem + penteado","2h",290]],trust:["Pincéis higienizados","Kit de cílios descartável"]},
+ {id:"depil",cat:"Depilação",skill:"corpo",name:"Depilação com cera",desc:"Cera quente ou fria, à sua escolha.",opts:[["Axilas","20 min",35],["Pernas inteiras","50 min",90],["Virilha completa","40 min",70]],trust:["Espátulas descartáveis, cera não reaproveitada"]}
+];
+const CATS=["Tudo","Cabelo","Unhas","Massagem","Rosto","Depilação"];
+const COMBOS=[
+ {name:"Spa em casa",items:{massagem:0,prog:1},desc:"Massagem 60 min + progressiva (cabelo médio). Duas profissionais, horários coordenados."},
+ {name:"Pré-festa",items:{make:0,escova:1},desc:"Maquiagem social + escova. Pronta em 2h."},
+ {name:"Cuidado completo",items:{mani:1,sobr:0,hidrat:0},desc:"Mãos e pés, sobrancelha e hidratação."}
+];
+const PROS={
+ cabelo:{name:"Juliana R.",ini:"JR",color:"#8E3B5E",spec:"Cabeleireira · progressiva e coloração",rate:"4,9",n:312,km:"2,1 km",eta:42},
+ corpo:{name:"Camila S.",ini:"CS",color:"#0B7A6C",spec:"Massoterapeuta · 6 anos",rate:"4,95",n:540,km:"1,4 km",eta:31},
+ unhas:{name:"Patrícia M.",ini:"PM",color:"#B4571E",spec:"Manicure · gel e nail art",rate:"4,8",n:887,km:"3,0 km",eta:48},
+ rosto:{name:"Renata A.",ini:"RA",color:"#5B4BA8",spec:"Maquiadora · sobrancelha e cílios",rate:"4,9",n:205,km:"2,6 km",eta:39}
+};
+const SLOTS=["Hoje 19:00","Hoje 20:30","Amanhã 08:00","Amanhã 10:00","Amanhã 14:00","Sáb 09:00"];
+const S={view:"home",mode:"agora",cat:"Tudo",q:"",cart:{},svc:null,opt:0,slot:SLOTS[0],pay:"pix",pref:"rapida",matched:false,stars:{},tip:0,online:true,reqLeft:30,reqState:"pending"};
+let timers=[];
+const $s=document.getElementById("screen"),$n=document.getElementById("nav");
+const fmt=v=>v.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+const svc=id=>SERVICES.find(s=>s.id===id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function totals(){
+  const items=Object.entries(S.cart).map(([id,o])=>{const s=svc(id);return {s,o,label:s.opts[o][0],dur:s.opts[o][1],price:s.opts[o][2]}});
+  const sub=items.reduce((a,i)=>a+i.price,0);
+  const disc=items.length>=2?Math.round(sub*0.10*100)/100:0;
+  const skills=[...new Set(items.map(i=>i.s.skill))];
+  const urg=S.mode==="agora"?9.9*skills.length:0;
+  const total=sub-disc+urg;
+  const toPros=(sub-disc)*0.8+urg;
+  return {items,sub,disc,urg,total,toPros,skills};
+}
+function clearTimers(){timers.forEach(t=>{clearTimeout(t);clearInterval(t)});timers=[]}
+function go(v){clearTimers();S.view=v;render();$s.scrollTop=0;if(window.innerWidth<=860){document.getElementById("phone").scrollIntoView({block:"start"})}}
+function toast(msg){const old=$s.parentElement.querySelector(".toast");if(old)old.remove();const t=document.createElement("div");t.className="toast";t.setAttribute("role","status");t.textContent=msg;$s.parentElement.appendChild(t);setTimeout(()=>t.remove(),2600)}
+
+const ICON={
+ home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>',
+ orders:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/></svg>',
+ pro:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>'
+};
+function nav(){
+  const tab=S.view==="pro"?"pro":S.view==="orders"?"orders":"home";
+  $n.innerHTML=[["home","Início"],["orders","Pedidos"],["pro","Profissional"]].map(([k,l])=>`<button data-a="tab" data-v="${k}" class="${tab===k?"on":""}" aria-current="${tab===k}">${ICON[k]}${l}</button>`).join("");
+}
+
+function vHome(){
+  const t=totals(),q=S.q.trim().toLowerCase();
+  const list=SERVICES.filter(s=>(S.cat==="Tudo"||s.cat===S.cat)&&(!q||s.name.toLowerCase().includes(q)||s.cat.toLowerCase().includes(q)));
+  return `
+  <div class="top"><div class="logo">Belê</div><button class="addr" data-a="toast" data-m="No app real: troque o endereço ou use a localização atual."><span>Atender em</span><b>Rua Harmonia, 412 · Vila Madalena</b></button></div>
+  <div class="pad" style="padding-top:8px">
+    <div class="seg" role="tablist">
+      <button class="${S.mode==="agora"?"on now":""}" data-a="mode" data-v="agora" role="tab" aria-selected="${S.mode==="agora"}"><span><span class="dot"></span>Agora</span><small>chega em ~45 min</small></button>
+      <button class="${S.mode==="agendar"?"on":""}" data-a="mode" data-v="agendar" role="tab" aria-selected="${S.mode==="agendar"}"><span>Agendar</span><small>escolha dia e hora</small></button>
+    </div>
+    <div style="margin-top:12px"><input id="q" class="search" type="search" placeholder="Buscar: progressiva, massagem, unha…" value="${esc(S.q)}" aria-label="Buscar serviço"></div>
+    <div class="chips" style="margin-top:12px">${CATS.map(c=>`<button class="chip ${S.cat===c?"on":""}" data-a="cat" data-v="${c}">${c}</button>`).join("")}</div>
+    ${S.cat==="Tudo"&&!q?`
+    <div class="sec"><h2>Combos</h2><span>10% off em 2+ serviços</span></div>
+    <div class="combos">${COMBOS.map((c,i)=>{const full=Object.entries(c.items).reduce((a,[id,o])=>a+svc(id).opts[o][2],0);return `<button class="combo" data-a="combo" data-v="${i}"><span class="tag ${i===0?"now":""}">${i===0?"Disponível agora":Object.keys(c.items).length+" serviços"}</span><h3>${c.name}</h3><p>${c.desc}</p><div class="price">${fmt(full*0.9)}<s>${fmt(full)}</s></div></button>`}).join("")}</div>`:""}
+    <div class="sec"><h2>${S.cat==="Tudo"?"Serviços":S.cat}</h2><span>preço final, sem taxa escondida</span></div>
+    <div class="list">${list.length?list.map(s=>{const inC=s.id in S.cart;return `<div class="row"><button data-a="open" data-v="${s.id}" style="border:0;background:none;padding:0;text-align:left;min-width:0"><b>${s.name}</b><small>${s.opts[0][1]} · a partir de ${fmt(s.opts[0][2])}</small></button><button class="add ${inC?"in":""}" data-a="${inC?"remove":"open"}" data-v="${s.id}" aria-label="${inC?"Remover":"Adicionar"} ${s.name}">${inC?"✓":"+"}</button></div>`}).join(""):`<p style="color:var(--ink-2)">Nenhum serviço encontrado para “${esc(S.q)}”.</p>`}</div>
+    <div class="sec"><h2>Online perto de você</h2><span><span class="dot"></span>14 agora</span></div>
+    ${Object.values(PROS).map(p=>`<div class="pro"><div class="av" style="background:${p.color}">${p.ini}</div><div><b>${p.name}</b><small>${p.spec} · ${p.km}</small><div class="ok">✓ Identidade e antecedentes verificados</div></div><div class="rating">★ ${p.rate}<br><small style="font-weight:400;color:var(--ink-2)">${p.n}</small></div></div>`).join("")}
+  </div>
+  ${t.items.length?`<div class="cartbar"><button class="btn ${S.mode==="agora"?"now":""}" data-a="go" data-v="cart"><span>${t.items.length} ${t.items.length>1?"serviços":"serviço"}</span><span>Ver pedido · ${fmt(t.total)}</span></button></div>`:""}`;
+}
+
+function vService(){
+  const s=svc(S.svc);
+  return `<div class="head"><button class="back" data-a="go" data-v="home" aria-label="Voltar">←</button><h2>${s.name}</h2></div>
+  <div class="pad" style="padding-top:4px">
+    <p style="margin:0 0 14px;color:var(--ink-2)">${s.desc}</p>
+    ${s.opts.map((o,i)=>`<button class="opt ${S.opt===i?"on":""}" data-a="opt" data-v="${i}"><span class="radio"></span><span><b>${o[0]}</b><small>Duração ${o[1]}</small></span><span class="price-t">${fmt(o[2])}</span></button>`).join("")}
+    <div class="trust">${s.trust.map(x=>`<div><i>✓</i><span>${x}</span></div>`).join("")}<div><i>✓</i><span>Garantia Belê: retoque grátis em até 7 dias</span></div></div>
+  </div>
+  <div class="cartbar"><button class="btn" data-a="addsvc"><span>Adicionar ao pedido</span><span>${fmt(s.opts[S.opt][2])}</span></button></div>`;
+}
+
+function vCart(){
+  const t=totals();
+  if(!t.items.length)return `<div class="head"><button class="back" data-a="go" data-v="home" aria-label="Voltar">←</button><h2>Seu pedido</h2></div><div class="pad"><p>Seu pedido está vazio.</p><button class="btn ghost" data-a="go" data-v="home">Ver serviços</button></div>`;
+  return `<div class="head"><button class="back" data-a="go" data-v="home" aria-label="Voltar">←</button><h2>Seu pedido</h2></div>
+  <div class="pad" style="padding-top:4px">
+    <div class="list">${t.items.map(i=>`<div class="row"><div style="min-width:0"><b>${i.s.name}</b><small>${i.label} · ${i.dur}</small><br><button class="rm" data-a="remove" data-v="${i.s.id}">Remover</button></div><span class="price-t">${fmt(i.price)}</span></div>`).join("")}</div>
+    ${t.skills.length>1?`<div class="share" style="background:var(--accent-soft)"><b style="color:var(--accent)">${t.skills.length} profissionais</b> vão atender você. A Belê organiza a ordem para você não ficar esperando ninguém.</div>`:""}
+    <div class="label">Quando</div>
+    <div class="seg">
+      <button class="${S.mode==="agora"?"on now":""}" data-a="mode" data-v="agora"><span><span class="dot"></span>Agora</span><small>~45 min</small></button>
+      <button class="${S.mode==="agendar"?"on":""}" data-a="mode" data-v="agendar"><span>Agendar</span><small>${S.mode==="agendar"?S.slot:"escolher"}</small></button>
+    </div>
+    ${S.mode==="agendar"?`<div class="slots" style="margin-top:10px">${SLOTS.map(x=>`<button class="chip ${S.slot===x?"on":""}" data-a="slot" data-v="${x}">${x}</button>`).join("")}</div>`:""}
+    <div class="label">Profissional</div>
+    <button class="opt ${S.pref==="rapida"?"on":""}" data-a="pref" data-v="rapida"><span class="radio"></span><span><b>Quem chega mais rápido</b><small>Só profissionais com nota 4,7 ou mais</small></span><span></span></button>
+    <button class="opt ${S.pref==="fav"?"on":""}" data-a="pref" data-v="fav"><span class="radio"></span><span><b>Minhas favoritas primeiro</b><small>Se não puderem, a Belê chama a próxima melhor</small></span><span></span></button>
+    <button class="opt ${S.pref==="mulher"?"on":""}" data-a="pref" data-v="mulher"><span class="radio"></span><span><b>Só profissionais mulheres</b><small>Vale para todos os serviços do pedido</small></span><span></span></button>
+    <div class="label">Pagamento</div>
+    <div class="slots">${[["pix","Pix"],["card","Cartão"],["vr","Cartão final 4021"]].map(([k,l])=>`<button class="chip ${S.pay===k?"on":""}" data-a="pay" data-v="${k}">${l}</button>`).join("")}</div>
+    <div class="label">Resumo</div>
+    <div class="sum">
+      <div><span class="muted">Serviços</span><span>${fmt(t.sub)}</span></div>
+      ${t.disc?`<div><span class="muted">Desconto combo (10%)</span><span>− ${fmt(t.disc)}</span></div>`:""}
+      ${t.urg?`<div><span class="muted">Atendimento agora (${t.skills.length}× ${fmt(9.9)})</span><span>${fmt(t.urg)}</span></div>`:""}
+      <div><span class="muted">Deslocamento</span><span>incluso</span></div>
+      <div class="total"><span>Total</span><span>${fmt(t.total)}</span></div>
+    </div>
+    <div class="share"><b>${fmt(t.toPros)}</b> desse valor vai direto para as profissionais (80% dos serviços + 100% da taxa de agora). Você só é cobrada quando elas chegarem e você informar o PIN.</div>
+  </div>
+  <div class="cartbar"><button class="btn ${S.mode==="agora"?"now":""}" data-a="confirm"><span>${S.mode==="agora"?"Chamar agora":"Agendar para "+S.slot}</span><span>${fmt(t.total)}</span></button></div>`;
+}
+
+function vMatching(){
+  const t=totals();
+  if(!S.matched){
+    timers.push(setTimeout(()=>{S.matched=true;render()},2600));
+    return `<div class="pad center" style="padding-top:40px"><div class="radar"><span></span><span></span><span></span><b>B</b></div>
+    <h2 style="font-size:22px">Procurando profissionais perto de você</h2><p style="color:var(--ink-2)">Convidando quem está online a até 5 km. Cada uma já vê o valor que vai receber.</p></div>`;
+  }
+  return `<div class="pad" style="padding-top:28px"><span class="tag now">Confirmado</span><h2 style="font-size:24px;margin:10px 0 6px">${S.mode==="agora"?"Suas profissionais estão a caminho":"Agendado para "+S.slot}</h2>
+  <p style="color:var(--ink-2);margin:0 0 10px">${t.skills.length>1?"A Belê organizou a ordem para ninguém ficar esperando.":"Você recebe aviso quando ela sair."}</p>
+  ${t.skills.map(k=>{const p=PROS[k],srv=t.items.filter(i=>i.s.skill===k).map(i=>i.s.name).join(" + ");return `<div class="pro"><div class="av" style="background:${p.color}">${p.ini}</div><div><b>${p.name}</b><small>${srv}</small><div class="ok">★ ${p.rate} · ${p.n} atendimentos</div></div><div class="rating" style="color:var(--now)">${S.mode==="agora"?p.eta+" min":""}</div></div>`}).join("")}
+  <div style="margin-top:16px">${S.mode==="agora"?`<button class="btn now center" data-a="go" data-v="track">Acompanhar no mapa</button>`:`<button class="btn center" data-a="finish-sched">Concluir</button>`}</div></div>`;
+}
+
+function vTrack(){
+  const t=totals();
+  const first=t.skills.map(k=>PROS[k]).sort((a,b)=>a.eta-b.eta);
+  let left=first[0].eta;
+  timers.push(setInterval(()=>{left=Math.max(1,left-1);const el=document.getElementById("etaN");if(el)el.textContent=left+" min"},1500));
+  const paths=["M30 210 L30 140 L120 140 L120 80 L200 80","M330 30 L330 120 L260 120 L260 80 L200 80","M360 230 L280 230 L280 160 L200 160 L200 80"];
+  return `<svg class="map" viewBox="0 0 400 260" role="img" aria-label="Mapa ilustrativo com profissionais a caminho">
+    <g stroke="var(--map-street)" stroke-width="14" stroke-linecap="round" fill="none">
+      <path d="M0 80H400M0 160H400M0 230H400M30 0V260M120 0V260M200 0V260M280 0V260M330 0V260"/></g>
+    <g fill="var(--surface)" opacity=".5"><rect x="140" y="95" width="45" height="50" rx="4"/><rect x="215" y="175" width="50" height="40" rx="4"/><rect x="45" y="95" width="60" height="30" rx="4"/></g>
+    ${first.map((p,i)=>`<path d="${paths[i]}" stroke="${p.color}" stroke-width="3" stroke-dasharray="6 6" fill="none" opacity=".6"/><circle r="9" fill="${p.color}" stroke="var(--surface)" stroke-width="3"><animateMotion dur="${18+i*6}s" fill="freeze" path="${paths[i]}"/></circle>`).join("")}
+    <circle cx="200" cy="80" r="13" fill="var(--accent)" stroke="var(--surface)" stroke-width="4"/>
+    <text x="200" y="60" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ink)" font-family="DM Sans, sans-serif">Você</text>
+  </svg>
+  <div class="pad">
+    <div class="eta"><div><small style="color:var(--ink-2)">${first[0].name} chega em</small><div class="big" id="etaN">${left} min</div></div><span class="tag now">A caminho</span></div>
+    ${first.slice(1).map(p=>`<p style="margin:4px 0 0;font-size:13px;color:var(--ink-2)">${p.name} chega em seguida, em ~${p.eta} min</p>`).join("")}
+    <div class="card" style="margin-top:14px;display:flex;justify-content:space-between;align-items:center;gap:10px"><div><small style="color:var(--ink-2)">PIN de chegada</small><div class="pin">4827</div></div><small style="max-width:150px;color:var(--ink-2)">Só passe o PIN quando a profissional estiver na sua porta. A cobrança começa aqui.</small></div>
+    <div class="label">Segurança</div>
+    <div class="safety"><button data-a="toast" data-m="Link do trajeto copiado para enviar a alguém de confiança.">↗<span>Compartilhar trajeto</span></button><button data-a="toast" data-m="Central Belê: atendimento humano 24h pelo chat do app.">💬<span>Central 24h</span></button><button class="sos" data-a="toast" data-m="No app real: aciona a central e o 190 com sua localização.">!<span>Emergência</span></button></div>
+    <div class="trust" style="margin-top:14px"><div><i>✓</i><span>Na chegada, confira o rótulo da progressiva e o registro Anvisa.</span></div><div><i>✓</i><span>Se alguma profissional cancelar, a Belê chama outra na hora e avisa você. Sem abrir chamado.</span></div><div><i>✓</i><span>Atraso de mais de 15 min? Você recebe ${fmt(15)} de crédito automaticamente.</span></div></div>
+    <div style="margin-top:16px"><button class="btn ghost" data-a="go" data-v="done">Simular fim do atendimento</button></div>
+  </div>`;
+}
+
+function vDone(){
+  const t=totals();
+  return `<div class="pad" style="padding-top:28px"><h2 style="font-size:24px">Como foi?</h2><p style="color:var(--ink-2);margin:6px 0 10px">Sua avaliação vai para cada profissional separadamente.</p>
+  ${t.skills.map(k=>{const p=PROS[k],v=S.stars[k]||0;return `<div class="pro"><div class="av" style="background:${p.color}">${p.ini}</div><div><b>${p.name}</b><div class="stars">${[1,2,3,4,5].map(n=>`<button class="${n<=v?"on":""}" data-a="star" data-k="${k}" data-v="${n}" aria-label="${n} estrelas">★</button>`).join("")}</div></div><span></span></div>`}).join("")}
+  <div class="label">Gorjeta (100% para as profissionais)</div>
+  <div class="slots">${[0,10,20,30].map(v=>`<button class="chip ${S.tip===v?"on":""}" data-a="tip" data-v="${v}">${v?fmt(v):"Sem gorjeta"}</button>`).join("")}</div>
+  <div class="trust"><div><i>✓</i><span><b>Garantia Belê.</b> Se algo não ficou como combinado, peça retoque grátis em até 7 dias direto pelo app.</span></div></div>
+  <div style="margin-top:16px;display:grid;gap:8px"><button class="btn center" data-a="finish">Enviar avaliação</button><button class="btn ghost" data-a="toast" data-m="Pedido salvo. Repita com as mesmas profissionais em 1 toque.">Salvar como favorito</button></div></div>`;
+}
+
+function vOrders(){
+  return `<div class="head"><h2>Pedidos</h2></div><div class="pad" style="padding-top:4px">
+  <div class="card"><div class="kv"><b>Spa em casa</b><span>12 nov</span></div><small style="color:var(--ink-2)">Massagem 60 min + progressiva médio · Camila S. e Juliana R.</small><div class="kv"><span>Total pago</span><b>${fmt(432+19.8)}</b></div><button class="btn ghost" data-a="combo" data-v="0">Pedir de novo</button></div>
+  <div class="card" style="margin-top:10px"><div class="kv"><b>Manicure + pedicure</b><span>28 out</span></div><small style="color:var(--ink-2)">Patrícia M. · ★ 5 dado por você</small><div class="kv"><span>Total pago</span><b>${fmt(75)}</b></div></div>
+  <p style="font-size:12.5px;color:var(--ink-2)">Pedidos de exemplo.</p></div>`;
+}
+
+function vPro(){
+  const pct=Math.round(S.reqLeft/30*100);
+  if(S.online&&S.reqState==="pending"){timers.push(setInterval(()=>{S.reqLeft--;if(S.reqLeft<=0){S.reqState="missed";render();return}const i=document.getElementById("tbar"),s=document.getElementById("tsec");if(i)i.style.width=Math.round(S.reqLeft/30*100)+"%";if(s)s.textContent=S.reqLeft+"s"},1000))}
+  const week=[[" Seg",310],["Ter",180],["Qua",420],["Qui",260],["Sex",510],["Sáb",640],["Hoje",239.9]],mx=640;
+  let req="";
+  if(!S.online)req=`<div class="card"><b>Você está offline</b><p style="margin:4px 0 0;color:var(--ink-2);font-size:13.5px">Fique online para receber pedidos no seu raio de atendimento (5 km).</p></div>`;
+  else if(S.reqState==="pending")req=`<div class="req" aria-live="polite"><div style="display:flex;justify-content:space-between;align-items:center"><span class="tag now">Novo pedido · Agora</span><small id="tsec" style="font-weight:700;color:var(--now)">${S.reqLeft}s</small></div>
+    <div class="timer"><i id="tbar" style="width:${pct}%"></i></div>
+    <div><small style="color:var(--ink-2)">Você recebe</small><div class="money">${fmt(290*0.9*0.8+9.9)}</div><small style="color:var(--ink-2)">Já descontada a taxa Belê. Pix na hora após o atendimento.</small></div>
+    <div class="kv"><span>Serviço</span><b>Progressiva · cabelo médio</b></div>
+    <div class="kv"><span>Distância</span><b>2,3 km · ~12 min de carro</b></div>
+    <div class="kv"><span>Cliente</span><b>Mariana · ★ 4,9 (14 pedidos)</b></div>
+    <div class="kv"><span>Também no pedido</span><b>Massagem (outra profissional)</b></div>
+    <div class="two"><button class="btn ghost" data-a="req" data-v="no">Recusar</button><button class="btn now center" data-a="req" data-v="yes">Aceitar</button></div>
+    <small style="color:var(--ink-2)">Recusar não baixa sua nota.</small></div>`;
+  else if(S.reqState==="yes")req=`<div class="card"><span class="tag now">Aceito</span><h3 style="margin:8px 0 4px">Rota para Rua Harmonia, 412</h3><p style="margin:0;color:var(--ink-2);font-size:13.5px">Peça o PIN na porta para iniciar. Endereço completo e contato liberados só depois do aceite.</p></div>`;
+  else req=`<div class="card"><b>${S.reqState==="missed"?"Pedido expirou":"Pedido recusado"}</b><p style="margin:4px 0 8px;color:var(--ink-2);font-size:13.5px">Sem impacto na sua nota. Novos pedidos aparecem aqui.</p><button class="btn ghost" data-a="req" data-v="reset">Simular novo pedido</button></div>`;
+  return `<div class="pro-hero"><div style="display:flex;justify-content:space-between;align-items:center"><div class="logo">Belê <span style="font-size:14px;font-weight:600;opacity:.7">Pro</span></div><button class="switch ${S.online?"on":""}" data-a="online" aria-pressed="${S.online}"><span>${S.online?"Online":"Offline"}</span><i></i></button></div>
+  <div class="earn"><div><small>Hoje</small><b>${fmt(239.9)}</b></div><div><small>Semana</small><b>${fmt(2559.9)}</b></div><div><small>Nota</small><b>★ 4,9</b></div></div></div>
+  <div class="pad">${req}
+  <div class="sec"><h2>Ganhos da semana</h2><span>líquido</span></div>
+  <div class="bars">${week.map(([d,v])=>`<div class="${d==="Hoje"?"today":""}"><i style="height:${Math.max(6,v/mx*85)}%"></i>${d.trim()}</div>`).join("")}</div>
+  <div class="card" style="margin-top:14px"><div class="kv"><span>Disponível para saque</span><b>${fmt(1180.4)}</b></div><button class="btn now center" data-a="toast" data-m="No app real: Pix enviado na hora, sem taxa.">Sacar via Pix agora · grátis</button></div>
+  <div class="label">Como você é paga</div>
+  <div class="trust" style="margin-top:0"><div><i>✓</i><span>80% de cada serviço é seu. A taxa de “agora” e as gorjetas, 100%.</span></div><div><i>✓</i><span>Cancelamento da cliente com menos de 2h: você recebe 50% do valor.</span></div><div><i>✓</i><span>Você define raio, horários e quais serviços aceita.</span></div><div><i>✓</i><span>Nenhum bloqueio sem aviso e direito de defesa. Avaliações fora da curva não contam.</span></div><div><i>✓</i><span>Clientes que você mesma trouxer para a Belê: 0% de taxa.</span></div></div>
+  </div>`;
+}
+
+function render(){
+  const V={home:vHome,service:vService,cart:vCart,match:vMatching,track:vTrack,done:vDone,orders:vOrders,pro:vPro}[S.view];
+  $s.innerHTML=V();nav();
+  const q=document.getElementById("q");
+  if(q)q.addEventListener("input",e=>{S.q=e.target.value;const pos=e.target.selectionStart;render();const n=document.getElementById("q");n.focus();n.setSelectionRange(pos,pos)});
+}
+
+document.getElementById("phone").addEventListener("click",e=>{
+  const b=e.target.closest("[data-a]");if(!b)return;
+  const a=b.dataset.a,v=b.dataset.v;
+  switch(a){
+    case "tab": if(v==="pro"){S.reqLeft=30;S.reqState="pending"}go(v);break;
+    case "mode": S.mode=v;render();break;
+    case "cat": S.cat=v;render();break;
+    case "open": S.svc=v;S.opt=v in S.cart?S.cart[v]:0;go("service");break;
+    case "opt": S.opt=+v;render();break;
+    case "addsvc": S.cart[S.svc]=S.opt;go("home");toast(svc(S.svc).name+" adicionada ao pedido");break;
+    case "remove": delete S.cart[v];render();break;
+    case "combo": S.cart={...COMBOS[+v].items};S.mode="agora";go("cart");break;
+    case "go": go(v);break;
+    case "slot": S.slot=v;render();break;
+    case "pref": S.pref=v;render();break;
+    case "pay": S.pay=v;render();break;
+    case "confirm": S.matched=false;go("match");break;
+    case "star": S.stars[b.dataset.k]=+v;render();break;
+    case "tip": S.tip=+v;render();break;
+    case "finish": case "finish-sched": S.cart={};S.stars={};S.tip=0;go("home");toast(a==="finish"?"Obrigada! Avaliação enviada.":"Agendamento confirmado. Lembrete 1h antes.");break;
+    case "online": S.online=!S.online;if(S.online){S.reqLeft=30;S.reqState="pending"}clearTimers();render();break;
+    case "req": if(v==="reset"){S.reqLeft=30;S.reqState="pending"}else S.reqState=v;clearTimers();render();break;
+    case "toast": toast(b.dataset.m);break;
+  }
+});
+render();
+})();
+</script>
