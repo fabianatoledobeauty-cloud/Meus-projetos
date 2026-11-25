@@ -72,8 +72,8 @@ Foi esse vídeo que convenceu as minhas alunas. Eu pego na mão, fico pertinho e
 **Texto do C (Nunca mais errar):**
 Pêndulo desregulado? Mancha? Lábio que não cicatriza? O problema não é você, é o ritmo e a posição dos dedos. Agora eu vou estar dentro do seu celular, te corrigindo. Só pra quem estiver no grupo da Black das Blacks. Toca em Saiba mais.
 
-**Texto do D (Cicatrização):**
-Te falaram que micro labial cicatriza com só 20 ou 30% da cor? É porque ainda não te ensinaram amplitude, cadência, ritmo e profundidade. Esse é o segredo das minhas alunas. Só quem estiver no grupo da Black das Blacks vai ter acesso. Toca em Saiba mais.
+**Texto do D (Cicatrização: antes, pós-imediato e cicatrizado):**
+Antes, pós-imediato e cicatrizado. Quase ninguém consegue esse resultado. Te falaram que micro labial cicatriza com só 20 ou 30% da cor? É porque ainda não te ensinaram amplitude, cadência, ritmo e profundidade. Esse é o segredo das minhas alunas, e por isso elas entregam resultados iguais aos meus. Só quem estiver no grupo da Black das Blacks vai ter acesso. Toca em Saiba mais.
 
 ## 5. Acompanhar e ajustar
 
