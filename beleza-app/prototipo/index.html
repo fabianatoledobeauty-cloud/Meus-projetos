@@ -182,6 +182,8 @@ h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0}
 .acad{display:inline-block;margin-top:4px;font-size:11px;font-weight:700;color:var(--accent);background:var(--accent-soft);padding:2px 7px;border-radius:6px}
 .feat{margin-top:20px;padding:14px;border-radius:16px;border:1px solid var(--accent);background:var(--surface)}
 .grow{margin-top:10px}
+.vchips{display:flex;flex-wrap:wrap;gap:6px}
+.vchips span{font-size:11.5px;font-weight:600;color:var(--now);background:var(--now-soft);padding:3px 8px;border-radius:999px}
 .kv{display:flex;justify-content:space-between;gap:10px;font-size:13.5px;padding:6px 0}
 .kv span{color:var(--ink-2)}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
@@ -209,7 +211,9 @@ h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0}
         <div class="diff"><b>Preço final, sem surpresa</b><span>Tabela por comprimento de cabelo e duração. Nada a combinar na porta.</span><em>Reclamação comum: valor muda na hora</em></div>
         <div class="diff"><b>Cobrança só na chegada</b><span>O valor só é cobrado quando a profissional chega e você informa o PIN.</span><em>Contra atraso e “no-show”</em></div>
         <div class="diff"><b>Profissional ganha 80%</b><span>O app mostra para a cliente quanto vai para quem atende. Taxa de urgência e gorjeta vão 100% para ela.</span><em>Concorrente líder retém 35% a 40%</em></div>
-        <div class="diff"><b>Segurança dos dois lados</b><span>Identidade e antecedentes checados, PIN, trajeto compartilhável, botão de emergência e cliente avaliada também.</span><em>Atendimento dentro de casa exige isso</em></div>
+        <div class="diff"><b>Segurança para a cliente</b><span>Antecedentes checados, selfie no dia, foto e placa do Uber antes de abrir a porta, PIN e pagamento só pelo app.</span><em>Contra roubo e golpe de falsa profissional</em></div>
+        <div class="diff"><b>Proteção para quem atende</b><span>Cliente com CPF, selfie e cartão no nome. Check-in, senha de emergência discreta e endereço dela nunca exposto.</span><em>Contra sequestro, abuso e endereço falso</em></div>
+        <div class="diff"><b>Uber incluso no pedido</b><span>Ida e volta calculadas e cobradas junto. A Belê chama o carro e acompanha a corrida. Sobrou? Volta para a cliente.</span><em>Profissional não adianta dinheiro</em></div>
         <div class="diff"><b>Produto transparente</b><span>Progressiva sem formol, com registro Anvisa mostrado antes de aplicar.</span><em>Risco real à saúde no setor</em></div>
         <div class="diff"><b>Garantia Belê</b><span>Profissional cancelou? Outra é chamada na hora, sem você abrir chamado. Não ficou bom? Retoque grátis em 7 dias.</span><em>No-show e reembolso lento: queixas nº 1 e 2</em></div>
         <div class="diff"><b>Selo F.Tolledo Academy</b><span>Alunas formadas ganham selo, vitrine em destaque e 30 dias de impulsionamento grátis. Destaque só com nota alta.</span><em>Quem está começando consegue as primeiras clientes</em></div>
@@ -249,14 +253,14 @@ const COMBOS=[
  {name:"Cuidado completo",items:{mani:1,sobr:0,hidrat:0},desc:"Mãos e pés, sobrancelha e hidratação."}
 ];
 const PROS={
- cabelo:{name:"Juliana R.",ini:"JR",color:"#8E3B5E",spec:"Cabeleireira · progressiva e coloração",rate:"4,9",n:312,km:"2,1 km",eta:42,academy:true},
- corpo:{name:"Camila S.",ini:"CS",color:"#0B7A6C",spec:"Massoterapeuta · 6 anos",rate:"4,95",n:540,km:"1,4 km",eta:31},
- unhas:{name:"Patrícia M.",ini:"PM",color:"#B4571E",spec:"Manicure · gel e nail art",rate:"4,8",n:887,km:"3,0 km",eta:48},
- rosto:{name:"Renata A.",ini:"RA",color:"#5B4BA8",spec:"Sobrancelha e maquiagem",rate:"4,9",n:205,km:"2,6 km",eta:39,academy:true}
+ cabelo:{name:"Juliana R.",ini:"JR",color:"#8E3B5E",spec:"Cabeleireira · progressiva e coloração",rate:"4,9",n:312,km:"2,1 km",eta:42,academy:true,meet:"Metrô Fradique Coutinho",car:"Onix prata · FTL4B27"},
+ corpo:{name:"Camila S.",ini:"CS",color:"#0B7A6C",spec:"Massoterapeuta · 6 anos",rate:"4,95",n:540,km:"1,4 km",eta:31,meet:"Padaria da R. Girassol, 210",car:"HB20 branco · RCS2J81"},
+ unhas:{name:"Patrícia M.",ini:"PM",color:"#B4571E",spec:"Manicure · gel e nail art",rate:"4,8",n:887,km:"3,0 km",eta:48,meet:"Shopping Eldorado, portão 3",car:"Argo cinza · GHT7E19"},
+ rosto:{name:"Renata A.",ini:"RA",color:"#5B4BA8",spec:"Sobrancelha e maquiagem",rate:"4,9",n:205,km:"2,6 km",eta:39,academy:true,meet:"Praça Benedito Calixto",car:"Kwid vermelho · DPA9C33"}
 };
 const STARS=[{name:"Larissa T.",ini:"LT",color:"#A0285A",spec:"Magnific Lips e Nanoblading · estúdio em Pinheiros",rate:"5,0",n:96,km:"1,8 km",academy:true}];
 const SLOTS=["Hoje 19:00","Hoje 20:30","Amanhã 08:00","Amanhã 10:00","Amanhã 14:00","Sáb 09:00"];
-const S={view:"home",mode:"agora",cat:"Tudo",q:"",cart:{},svc:null,opt:0,slot:SLOTS[0],pay:"pix",pref:"rapida",matched:false,stars:{},tip:0,online:true,reqLeft:30,reqState:"pending"};
+const S={view:"home",mode:"agora",cat:"Tudo",q:"",cart:{},svc:null,opt:0,slot:SLOTS[0],pay:"pix",transp:"bele",pref:"rapida",matched:false,stars:{},tip:0,online:true,reqLeft:30,reqState:"pending"};
 let timers=[];
 const $s=document.getElementById("screen"),$n=document.getElementById("nav");
 const fmt=v=>v.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
@@ -265,15 +269,19 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
 
 const badge=p=>p.academy?`<span class="acad">Formada F.Tolledo Academy</span>`:"";
 function proCard(p){return `<div class="pro"><div class="av" style="background:${p.color}">${p.ini}</div><div><b>${p.name}</b><small>${p.spec} · ${p.km}</small><div class="ok">✓ Identidade e antecedentes verificados</div>${badge(p)}</div><div class="rating">★ ${p.rate}<br><small style="font-weight:400;color:var(--ink-2)">${p.n}</small></div></div>`}
+const kmN=p=>parseFloat(p.km.replace(",","."));
+const uber=km=>Math.round(Math.max(9.5,4.5+1.55*km+0.33*km*3.2)*100)/100; /* estimativa UberX: base + km + minuto */
 function totals(){
   const items=Object.entries(S.cart).map(([id,o])=>{const s=svc(id);return {s,o,label:s.opts[o][0],dur:s.opts[o][1],price:s.opts[o][2]}});
   const sub=items.reduce((a,i)=>a+i.price,0);
   const disc=items.length>=2?Math.round(sub*0.10*100)/100:0;
   const skills=[...new Set(items.map(i=>i.s.skill))];
   const urg=S.mode==="agora"?9.9*skills.length:0;
-  const total=sub-disc+urg;
+  const rides=skills.map(k=>({p:PROS[k],one:uber(kmN(PROS[k]))}));
+  const transp=S.transp==="bele"?rides.reduce((a,x)=>a+x.one*2,0):0;
+  const total=sub-disc+urg+transp;
   const toPros=(sub-disc)*0.8+urg;
-  return {items,sub,disc,urg,total,toPros,skills};
+  return {items,sub,disc,urg,total,toPros,skills,rides,transp};
 }
 function clearTimers(){timers.forEach(t=>{clearTimeout(t);clearInterval(t)});timers=[]}
 function go(v){clearTimers();S.view=v;render();$s.scrollTop=0;if(window.innerWidth<=860){document.getElementById("phone").scrollIntoView({block:"start"})}}
@@ -343,6 +351,10 @@ function vCart(){
     <button class="opt ${S.pref==="rapida"?"on":""}" data-a="pref" data-v="rapida"><span class="radio"></span><span><b>Quem chega mais rápido</b><small>Só profissionais com nota 4,7 ou mais</small></span><span></span></button>
     <button class="opt ${S.pref==="fav"?"on":""}" data-a="pref" data-v="fav"><span class="radio"></span><span><b>Minhas favoritas primeiro</b><small>Se não puderem, a Belê chama a próxima melhor</small></span><span></span></button>
     <button class="opt ${S.pref==="mulher"?"on":""}" data-a="pref" data-v="mulher"><span class="radio"></span><span><b>Só profissionais mulheres</b><small>Vale para todos os serviços do pedido</small></span><span></span></button>
+    <div class="label">Deslocamento da profissional</div>
+    <button class="opt ${S.transp==="bele"?"on":""}" data-a="transp" data-v="bele"><span class="radio"></span><span><b>A Belê chama o Uber (recomendado)</b><small>Ida e volta incluídas no pedido. Corrida acompanhada pela central. Se sair mais barato, a diferença volta para você.</small></span><span class="price-t">${fmt(t.rides.reduce((a,x)=>a+x.one*2,0))}</span></button>
+    <button class="opt ${S.transp==="cliente"?"on":""}" data-a="transp" data-v="cliente"><span class="radio"></span><span><b>Eu mesma peço o Uber</b><small>Pelo seu app, em “pedir para outra pessoa”. Por segurança, a busca é num ponto de encontro escolhido por ela, nunca na casa dela.</small></span><span class="price-t" style="font-size:12px;font-weight:600;text-align:right">fora do<br>pedido</span></button>
+    ${S.transp==="cliente"?`<div class="share" style="background:var(--surface-2)">${t.rides.map(x=>`<b style="color:var(--ink)">${x.p.name}</b>: partida em <b style="color:var(--ink)">${x.p.meet}</b>. Volta: até o mesmo ponto.`).join("<br>")}</div>`:""}
     <div class="label">Pagamento</div>
     <div class="slots">${[["pix","Pix"],["card","Cartão"],["vr","Cartão final 4021"]].map(([k,l])=>`<button class="chip ${S.pay===k?"on":""}" data-a="pay" data-v="${k}">${l}</button>`).join("")}</div>
     <div class="label">Resumo</div>
@@ -350,7 +362,7 @@ function vCart(){
       <div><span class="muted">Serviços</span><span>${fmt(t.sub)}</span></div>
       ${t.disc?`<div><span class="muted">Desconto combo (10%)</span><span>− ${fmt(t.disc)}</span></div>`:""}
       ${t.urg?`<div><span class="muted">Atendimento agora (${t.skills.length}× ${fmt(9.9)})</span><span>${fmt(t.urg)}</span></div>`:""}
-      <div><span class="muted">Deslocamento</span><span>incluso</span></div>
+      ${S.transp==="bele"?t.rides.map(x=>`<div><span class="muted">Uber ida e volta · ${x.p.name} (${x.p.km})</span><span>${fmt(x.one*2)}</span></div>`).join(""):`<div><span class="muted">Uber</span><span>por sua conta</span></div>`}
       <div class="total"><span>Total</span><span>${fmt(t.total)}</span></div>
     </div>
     <div class="share"><b>${fmt(t.toPros)}</b> desse valor vai direto para as profissionais (80% dos serviços + 100% da taxa de agora). Você só é cobrada quando elas chegarem e você informar o PIN.</div>
@@ -388,10 +400,12 @@ function vTrack(){
   <div class="pad">
     <div class="eta"><div><small style="color:var(--ink-2)">${first[0].name} chega em</small><div class="big" id="etaN">${left} min</div></div><span class="tag now">A caminho</span></div>
     ${first.slice(1).map(p=>`<p style="margin:4px 0 0;font-size:13px;color:var(--ink-2)">${p.name} chega em seguida, em ~${p.eta} min</p>`).join("")}
-    <div class="card" style="margin-top:14px;display:flex;justify-content:space-between;align-items:center;gap:10px"><div><small style="color:var(--ink-2)">PIN de chegada</small><div class="pin">4827</div></div><small style="max-width:150px;color:var(--ink-2)">Só passe o PIN quando a profissional estiver na sua porta. A cobrança começa aqui.</small></div>
+    <div class="label">Confira antes de abrir a porta</div>
+    ${first.map(p=>`<div class="pro" style="padding:6px 0"><div class="av" style="background:${p.color}">${p.ini}</div><div><b>${p.name}</b><small>Chegando de Uber · ${p.car}</small><div class="ok">✓ Selfie de hoje confere com o documento</div></div><span></span></div>`).join("")}
+    <div class="card" style="margin-top:10px;display:flex;justify-content:space-between;align-items:center;gap:10px"><div><small style="color:var(--ink-2)">PIN de chegada</small><div class="pin">4827</div></div><small style="max-width:150px;color:var(--ink-2)">Só passe o PIN quando a profissional estiver na sua porta. A cobrança começa aqui.</small></div>
     <div class="label">Segurança</div>
     <div class="safety"><button data-a="toast" data-m="Link do trajeto copiado para enviar a alguém de confiança.">↗<span>Compartilhar trajeto</span></button><button data-a="toast" data-m="Central Belê: atendimento humano 24h pelo chat do app.">💬<span>Central 24h</span></button><button class="sos" data-a="toast" data-m="No app real: aciona a central e o 190 com sua localização.">!<span>Emergência</span></button></div>
-    <div class="trust" style="margin-top:14px"><div><i>✓</i><span>Na chegada, confira o rótulo da progressiva e o registro Anvisa.</span></div><div><i>✓</i><span>Se alguma profissional cancelar, a Belê chama outra na hora e avisa você. Sem abrir chamado.</span></div><div><i>✓</i><span>Atraso de mais de 15 min? Você recebe ${fmt(15)} de crédito automaticamente.</span></div></div>
+    <div class="trust" style="margin-top:14px"><div><i>✓</i><span>Pagamento só pelo app. Ninguém deve pedir dinheiro, Pix por fora ou cartão na maquininha.</span></div><div><i>✓</i><span>Na chegada, confira o rótulo da progressiva e o registro Anvisa.</span></div><div><i>✓</i><span>Se alguma profissional cancelar, a Belê chama outra na hora e avisa você. Sem abrir chamado.</span></div><div><i>✓</i><span>Atraso de mais de 15 min? Você recebe ${fmt(15)} de crédito automaticamente.</span></div></div>
     <div style="margin-top:16px"><button class="btn ghost" data-a="go" data-v="done">Simular fim do atendimento</button></div>
   </div>`;
 }
@@ -425,10 +439,15 @@ function vPro(){
     <div class="kv"><span>Serviço</span><b>Progressiva · cabelo médio</b></div>
     <div class="kv"><span>Distância</span><b>2,3 km · ~12 min de carro</b></div>
     <div class="kv"><span>Cliente</span><b>Mariana · ★ 4,9 (14 pedidos)</b></div>
+    <div class="vchips"><span>✓ CPF e selfie</span><span>✓ Cartão no nome dela</span><span>✓ Endereço já atendido 6×</span><span>✓ Sem ocorrências</span></div>
+    <div class="kv"><span>Transporte</span><b>Uber ida e volta pago pela Belê</b></div>
     <div class="kv"><span>Também no pedido</span><b>Massagem (outra profissional)</b></div>
     <div class="two"><button class="btn ghost" data-a="req" data-v="no">Recusar</button><button class="btn now center" data-a="req" data-v="yes">Aceitar</button></div>
     <small style="color:var(--ink-2)">Recusar não baixa sua nota.</small></div>`;
-  else if(S.reqState==="yes")req=`<div class="card"><span class="tag now">Aceito</span><h3 style="margin:8px 0 4px">Rota para Rua Harmonia, 412</h3><p style="margin:0;color:var(--ink-2);font-size:13.5px">Peça o PIN na porta para iniciar. Endereço completo e contato liberados só depois do aceite.</p></div>`;
+  else if(S.reqState==="yes")req=`<div class="card"><span class="tag now">Aceito</span><h3 style="margin:8px 0 4px">Rota para Rua Harmonia, 412</h3><p style="margin:0;color:var(--ink-2);font-size:13.5px">Seu Uber chega em 4 min. Peça o PIN na porta para iniciar. Endereço completo liberado só agora e apagado do seu app quando o atendimento termina.</p></div>
+    <div class="card" style="margin-top:10px"><b>Sua proteção neste atendimento</b>
+    <div class="trust" style="margin-top:8px"><div><i>✓</i><span>Trajeto e local compartilhados com sua contato de confiança: <b>Ana (irmã)</b></span></div><div><i>✓</i><span>Check-in a cada 40 min. Sem resposta, a central liga para você.</span></div><div><i>✓</i><span>Senha de emergência discreta: se digitar <b>1990</b> no lugar do PIN de encerramento, o app parece normal mas aciona a central.</span></div><div><i>✓</i><span>Se o atendimento passar 30 min do previsto sem check-in, a central é avisada.</span></div></div>
+    <button class="btn" style="margin-top:10px;justify-content:center;background:var(--accent)" data-a="toast" data-m="No app real: segure 3 s para acionar a central e o 190 com sua localização, sem som na tela.">Segure para emergência</button></div>`;
   else req=`<div class="card"><b>${S.reqState==="missed"?"Pedido expirou":"Pedido recusado"}</b><p style="margin:4px 0 8px;color:var(--ink-2);font-size:13.5px">Sem impacto na sua nota. Novos pedidos aparecem aqui.</p><button class="btn ghost" data-a="req" data-v="reset">Simular novo pedido</button></div>`;
   return `<div class="pro-hero"><div style="display:flex;justify-content:space-between;align-items:center"><div class="logo">Belê <span style="font-size:14px;font-weight:600;opacity:.7">Pro</span></div><button class="switch ${S.online?"on":""}" data-a="online" aria-pressed="${S.online}"><span>${S.online?"Online":"Offline"}</span><i></i></button></div>
   <div class="earn"><div><small>Hoje</small><b>${fmt(239.9)}</b></div><div><small>Semana</small><b>${fmt(2559.9)}</b></div><div><small>Nota</small><b>★ 4,9</b></div></div></div>
@@ -470,6 +489,7 @@ document.getElementById("phone").addEventListener("click",e=>{
     case "slot": S.slot=v;render();break;
     case "pref": S.pref=v;render();break;
     case "pay": S.pay=v;render();break;
+    case "transp": S.transp=v;render();break;
     case "confirm": S.matched=false;go("match");break;
     case "star": S.stars[b.dataset.k]=+v;render();break;
     case "tip": S.tip=+v;render();break;
