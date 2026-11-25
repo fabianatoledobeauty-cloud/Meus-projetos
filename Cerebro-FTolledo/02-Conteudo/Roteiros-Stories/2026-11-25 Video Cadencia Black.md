@@ -94,3 +94,12 @@ Tom de segredo, voz baixa e calma, quase um sussurro no começo. Pausa entre as 
 | 15,5 a 20,5s | E se ele guiasse a sua mão, passada por passada? | "E se ele guiasse a sua mão, passada por passada, do começo ao fim?" |
 | 20,5 a 22,5s | Ninguém nunca te mostrou isso. | "Ninguém nunca te mostrou isso." |
 | 22,5 a 27,5s | Hoje, 20h, eu revelo. Ativa o lembrete. | (silêncio de 1 segundo) "Hoje, às oito da noite, eu revelo. Ativa o lembrete." |
+
+## Versão para tráfego (sem data): [[2026-11-25 Cadencia Teaser Trafego.mp4]] (30s)
+
+Igual ao teaser v2 até "Ninguém nunca te mostrou isso." O final muda para: Só quem estiver no grupo da Black das Blacks vai ter acesso. Entre no grupo VIP.
+
+Narração do final (22,5 a 29,5s): (1 segundo de silêncio) "E só quem estiver no grupo da Black das Blacks vai ter acesso. Toca no botão e entra agora."
+
+Texto do anúncio: Você reconhece esse som? Ele é o ritmo do meu método, e pouquíssimas pessoas vão ter acesso ao que eu criei com ele. Só quem estiver no grupo da Black das Blacks. Toca em Saiba mais e entra no grupo VIP.
+Botão do anúncio: Saiba mais (ou Enviar mensagem, se o link for do WhatsApp).
