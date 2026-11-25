@@ -87,3 +87,20 @@ Olhe uma vez por dia, depois de cada anúncio ter umas 1.000 impressões:
 
 - Hoje (25/11) até quinta (26/11) às 20h: foco total em levar gente para o grupo antes da abertura.
 - Depois da abertura da Black: os anúncios continuam valendo, porque falam do grupo, não de data.
+
+---
+
+## Textos finais para o público quente (quem engajou com o reel do POV)
+
+Use estes no conjunto "Viu 50% reel POV" e no "Engajou Instagram". Eles falam com quem já viu o vídeo. No público semelhante (frio), use os textos de cima.
+
+Título de todos: Entre no grupo VIP da Black
+Botão: Saiba mais
+
+**A (O som):** Você já ouviu esse som. Ele estava naquele vídeo em que eu não deixo a aluna errar nem por um minuto. Mas não é só o som: é a posição de cada dedo e os segredinhos que só as minhas alunas do presencial conhecem. Agora é como se eu estivesse dentro do aplicativo, te corrigindo. Só quem estiver no grupo da Black das Blacks vai ter acesso. Toca em Saiba mais e entra.
+
+**B (Eu pego na sua mão):** Você viu esse vídeo. Foi ele que convenceu as minhas alunas: eu pego na mão, fico pertinho e corrijo cada dedo até acertar. E se eu pudesse fazer isso com você todos os dias? Só quem estiver no grupo da Black das Blacks vai ter acesso. Toca em Saiba mais e entra.
+
+**C (Nunca mais errar):** Lembra da professora que não deixava a aluna errar? Agora eu vou estar dentro do seu celular. Pêndulo desregulado, mancha, lábio que não cicatriza: o problema não é você, é o ritmo e a posição dos dedos. Só pra quem estiver no grupo da Black das Blacks. Toca em Saiba mais.
+
+**D (Cicatrização):** Antes, pós-imediato e o mesmo lábio cicatrizado. Quase ninguém consegue esse resultado. Te falaram que micro labial cicatriza com só 20 ou 30% da cor? É porque ainda não te ensinaram amplitude, cadência, ritmo e profundidade. Esse é o segredo das minhas alunas. Só quem estiver no grupo da Black das Blacks vai ter acesso. Toca em Saiba mais.
