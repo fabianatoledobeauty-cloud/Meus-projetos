@@ -78,3 +78,19 @@ Quinta, 26/11, às 20h. Link na bio.
 8. Quem fechar um curso na Black das Blacks ganha o Cadência de graça. Quinta, 26/11, 20h.
 
 **Legenda do teaser:** Você reconhece esse som? Hoje, às 20h, eu revelo o que ele tem a ver com você. Ativa o lembrete.
+
+---
+
+## Narração do teaser v2 (28s)
+
+Tom de segredo, voz baixa e calma, quase um sussurro no começo. Pausa entre as frases. Grava tudo de uma vez.
+
+| Tempo | Na tela | Fabi fala |
+|---|---|---|
+| 0 a 3s | Você reconhece esse som? | "Você reconhece esse som?" |
+| 3 a 6s | Já ouviu ele em algum lugar? (reel do POV) | "Presta atenção. Você já ouviu ele em algum lugar." |
+| 6 a 12s | Pêndulo desregulado? / Medo de manchar? / Lábio que não cicatriza? / Insegurança na hora de atender? | "Pêndulo desregulado... medo de manchar... lábio que não cicatriza... insegurança na hora de atender..." |
+| 12,5 a 15s | Esse som é o ritmo do meu método. | "Esse som é o ritmo do meu método." |
+| 15,5 a 20,5s | E se ele guiasse a sua mão, passada por passada? | "E se ele guiasse a sua mão, passada por passada, do começo ao fim?" |
+| 20,5 a 22,5s | Ninguém nunca te mostrou isso. | "Ninguém nunca te mostrou isso." |
+| 22,5 a 27,5s | Hoje, 20h, eu revelo. Ativa o lembrete. | (silêncio de 1 segundo) "Hoje, às oito da noite, eu revelo. Ativa o lembrete." |
