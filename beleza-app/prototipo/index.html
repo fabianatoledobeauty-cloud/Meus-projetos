@@ -184,6 +184,8 @@ h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0}
 .grow{margin-top:10px}
 .ad{display:grid;gap:3px;margin-top:18px;padding:12px 14px;border-radius:14px;border:1px dashed var(--line);background:var(--surface-2)}
 .ad small{color:var(--ink-2);font-size:12.5px}
+.combo.salon{background:var(--now-soft)}
+.combo.salon .tag{background:var(--surface)}
 .spons{margin-top:4px;padding:4px 12px;border-radius:14px;border:1px dashed var(--line);background:var(--surface-2)}
 .spons .tag{margin-top:8px}
 .fill{height:8px;border-radius:999px;background:var(--line);overflow:hidden;margin:10px 0 4px}
@@ -212,7 +214,7 @@ h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0}
 
 <div class="wrap">
   <section class="notes" aria-label="Sobre o protótipo">
-    <div class="brand">Belê<small>Beleza e bem-estar em casa, agora. Protótipo navegável.</small></div>
+    <div class="brand">Belê<small>Beleza e bem-estar agora: em casa, no estúdio ou no salão perto. Protótipo navegável.</small></div>
     <p>Peça um ou vários serviços de uma vez (massagem e progressiva, por exemplo). A Belê encontra profissionais verificadas perto de você, mostra o preço final antes de confirmar e você acompanha a chegada no mapa.</p>
     <div>
       <h3>Como testar</h3>
@@ -222,6 +224,7 @@ h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0}
         <li>Acompanhe a chegada, use o PIN e avalie no fim.</li>
         <li>Na aba <b>Profissional</b>, veja o app do outro lado: pedido chegando com o valor líquido já calculado, selo da Academy, impulsionamento e cursos com desconto.</li>
         <li>Na categoria <b>Micropigmentação</b>, veja como funcionam os serviços feitos no estúdio. No pedido, troque <b>Onde</b> para “Num estúdio perto”.</li>
+        <li>Na tela inicial, em <b>Salões com vaga agora</b>, reserve um horário livre de hoje num salão perto.</li>
         <li>Na aba <b>Estúdio</b>, veja o lado de quem aluga a maca: agenda por hora, preço e regras.</li>
         <li>Na aba Profissional, toque em <b>Quero ser chamada mais vezes</b> para impulsionar o perfil. Em <b>Anuncie na Belê</b>, veja os dois tipos de patrocínio.</li>
       </ol>
@@ -230,6 +233,7 @@ h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0}
       <h3>O que a Belê faz diferente</h3>
       <div class="diffs">
         <div class="diff"><b>Agora de verdade</b><span>Profissional em ~45 min, com prazo exibido antes de confirmar. Agendar continua possível.</span><em>Concorrentes só agendam com antecedência</em></div>
+        <div class="diff"><b>Salões com vaga agora</b><span>Salões publicam a cadeira vaga de hoje com desconto. A cliente reserva em 2 toques e vai a pé.</span><em>Ninguém vende o horário vago do dia</em></div>
         <div class="diff"><b>Vários serviços, um pedido</b><span>Massagem + progressiva + unhas. A Belê coordena 2 ou 3 profissionais e horários.</span><em>Hoje cada serviço é um pedido separado</em></div>
         <div class="diff"><b>Preço final, sem surpresa</b><span>Tabela por comprimento de cabelo e duração. Nada a combinar na porta.</span><em>Reclamação comum: valor muda na hora</em></div>
         <div class="diff"><b>Cobrança só na chegada</b><span>O valor só é cobrado quando a profissional chega e você informa o PIN.</span><em>Contra atraso e “no-show”</em></div>
@@ -290,8 +294,12 @@ const STUDIOS=[
  {name:"Casa Jasmim Estética",bairro:"Perdizes",km:"2,2 km",price:30,macas:1,feat:["Lavatório","Luz de LED"],free:"Amanhã 9h às 13h"}];
 const studioCard=(st,i,sel)=>`<button class="opt ${sel?"on":""}" data-a="studio" data-v="${i}"><span class="radio"></span><span><b>${st.name}</b><small>${st.bairro} · ${st.km} · livre ${st.free}</small><span class="acad" style="color:var(--now);background:var(--now-soft)">Licença sanitária verificada</span></span><span class="price-t" style="font-size:12px;text-align:right">${st.feat[0]}</span></button>`;
 const SPONS={name:"Bianca F.",ini:"BF",color:"#2F6E9E",spec:"Manicure · gel e nail art",rate:"4,8",n:23,km:"1,1 km"};
+const SALOES=[
+ {name:"Salão Bossa",bairro:"Vila Madalena",km:"0,6 km",walk:"8 min a pé",rate:"4,7",n:1204,slots:[["15:30","Escova modelada (médio)",95],["16:00","Manicure",40],["17:30","Hidratação + escova",140]]},
+ {name:"Esmalteria Nuance",bairro:"Pinheiros",km:"1,0 km",walk:"5 min de carro",rate:"4,8",n:860,slots:[["15:15","Manicure + pedicure",75],["15:45","Esmaltação em gel",110]]},
+ {name:"Ondas Hair Studio",bairro:"Vila Madalena",km:"1,3 km",walk:"6 min de carro",rate:"4,9",n:432,slots:[["16:30","Corte feminino",120],["18:00","Escova modelada (longo)",115]]}];
 const SLOTS=["Hoje 19:00","Hoje 20:30","Amanhã 08:00","Amanhã 10:00","Amanhã 14:00","Sáb 09:00"];
-const S={view:"home",mode:"agora",cat:"Tudo",q:"",cart:{},svc:null,opt:0,slot:SLOTS[0],pay:"pix",aud:"marcas",bmodel:"cpa",bb:{"Vila Madalena":1,"Pinheiros":1},bs:{"Unhas":1},bt:{"Noite":1,"Fim de semana":1},bud:60,transp:"bele",where:"casa",studio:0,pref:"rapida",matched:false,stars:{},tip:0,online:true,reqLeft:30,reqState:"pending"};
+const S={view:"home",mode:"agora",cat:"Tudo",q:"",cart:{},svc:null,opt:0,slot:SLOTS[0],pay:"pix",sal:0,salSlot:0,salBooked:false,aud:"marcas",bmodel:"cpa",bb:{"Vila Madalena":1,"Pinheiros":1},bs:{"Unhas":1},bt:{"Noite":1,"Fim de semana":1},bud:60,transp:"bele",where:"casa",studio:0,pref:"rapida",matched:false,stars:{},tip:0,online:true,reqLeft:30,reqState:"pending"};
 let timers=[];
 const $s=document.getElementById("screen"),$n=document.getElementById("nav");
 const fmt=v=>v.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
@@ -344,6 +352,8 @@ function vHome(){
     ${S.cat==="Tudo"&&!q?`
     <div class="sec"><h2>Combos</h2><span>10% off em 2+ serviços</span></div>
     <div class="combos">${COMBOS.map((c,i)=>{const full=Object.entries(c.items).reduce((a,[id,o])=>a+svc(id).opts[o][2],0);return `<button class="combo" data-a="combo" data-v="${i}"><span class="tag ${i===0?"now":""}">${i===0?"Disponível agora":Object.keys(c.items).length+" serviços"}</span><h3>${c.name}</h3><p>${c.desc}</p><div class="price">${fmt(full*0.9)}<s>${fmt(full)}</s></div></button>`}).join("")}</div>`:""}
+    ${S.cat==="Tudo"&&!q?`<div class="sec"><h2>Salões com vaga agora</h2><span>até 20% off</span></div>
+    <div class="combos">${SALOES.map((sl,i)=>`<button class="combo salon" data-a="salon" data-v="${i}"><span class="tag now">Próxima vaga ${sl.slots[0][0]}</span><h3>${sl.name}</h3><p>${sl.bairro} · ${sl.km} · ${sl.walk}</p><p>${sl.slots[0][1]}</p><div class="price">${fmt(sl.slots[0][2]*0.8)}<s>${fmt(sl.slots[0][2])}</s></div></button>`).join("")}</div>`:""}
     <div class="sec"><h2>${S.cat==="Tudo"?"Serviços":S.cat}</h2><span>preço final, sem taxa escondida</span></div>
     <div class="list">${list.length?list.map(s=>{const inC=s.id in S.cart;return `<div class="row"><button data-a="open" data-v="${s.id}" style="border:0;background:none;padding:0;text-align:left;min-width:0"><b>${s.name}</b><small>${s.studio?"No estúdio · avaliação gratuita":s.opts[0][1]+" · a partir de "+fmt(s.opts[0][2])}</small></button><button class="add ${inC?"in":""}" data-a="${inC?"remove":"open"}" ${s.studio?'style="font-size:13px;width:auto;padding:0 10px;border-radius:999px"':""} data-v="${s.id}" aria-label="${inC?"Remover":"Adicionar"} ${s.name}">${inC?"✓":s.studio?"Ver":"+"}</button></div>`}).join(""):`<p style="color:var(--ink-2)">Nenhum serviço encontrado para “${esc(S.q)}”.</p>`}</div>
     <div class="feat"><div class="sec" style="margin:0 0 4px"><h2>Formadas F.Tolledo Academy</h2><span class="tag">Destaque</span></div><small style="color:var(--ink-2)">Profissionais com formação verificada e nota 4,8 ou mais.</small>${[...STARS,PROS.rosto].map(proCard).join("")}</div>
@@ -585,8 +595,23 @@ function vBoost(){
   <small style="color:var(--ink-2);display:block;margin-top:8px">Só fica ativo enquanto sua nota estiver em 4,7 ou mais.</small>
   </div>`;
 }
+function vSalon(){
+  const sl=SALOES[S.sal],o=sl.slots[S.salSlot];
+  if(S.salBooked)return `<div class="pad" style="padding-top:28px"><span class="tag now">Reservado</span><h2 style="font-size:24px;margin:10px 0 6px">${sl.name}, hoje às ${o[0]}</h2><p style="color:var(--ink-2);margin:0 0 14px">${o[1]} · ${sl.bairro} · ${sl.walk}</p>
+   <div class="sum"><div><span class="muted">Preço do salão</span><span>${fmt(o[2])}</span></div><div><span class="muted">Hora vaga Belê (20%)</span><span>− ${fmt(o[2]*0.2)}</span></div><div class="total"><span>Total</span><span>${fmt(o[2]*0.8)}</span></div></div>
+   <div class="trust"><div><i>✓</i><span>O salão já recebeu sua reserva. Chegue até 5 min antes.</span></div><div><i>✓</i><span>Cobrado só quando você fizer check-in no salão.</span></div><div><i>✓</i><span>Cancelamento grátis até 30 min antes.</span></div></div>
+   <div style="margin-top:16px;display:grid;gap:8px"><button class="btn ghost" data-a="toast" data-m="No app real: abre a rota no Google Maps ou Waze.">Como chegar</button><button class="btn center" data-a="salon-done">Voltar ao início</button></div></div>`;
+  return `<div class="head"><button class="back" data-a="go" data-v="home" aria-label="Voltar">←</button><h2>${sl.name}</h2></div>
+  <div class="pad" style="padding-top:4px">
+   <p style="margin:0 0 4px;color:var(--ink-2)">${sl.bairro} · ${sl.km} · ${sl.walk} · ★ ${sl.rate} (${sl.n})</p>
+   <div class="label">Vagas de hoje</div>
+   ${sl.slots.map((x,i)=>`<button class="opt ${S.salSlot===i?"on":""}" data-a="salslot" data-v="${i}"><span class="radio"></span><span><b>${x[0]} · ${x[1]}</b><small><s>${fmt(x[2])}</s> preço normal</small></span><span class="price-t">${fmt(x[2]*0.8)}</span></button>`).join("")}
+   <div class="trust"><div><i>✓</i><span>Horários atualizados pela agenda do próprio salão, em tempo real.</span></div><div><i>✓</i><span>Desconto de hora vaga: o salão enche a cadeira, você paga menos.</span></div></div>
+  </div>
+  <div class="cartbar"><button class="btn now" data-a="salbook"><span>Reservar ${o[0]}</span><span>${fmt(o[2]*0.8)}</span></button></div>`;
+}
 function render(){
-  const V={home:vHome,service:vService,cart:vCart,match:vMatching,track:vTrack,done:vDone,orders:vOrders,pro:vPro,studio:vStudio,ads:vAds,boost:vBoost}[S.view];
+  const V={home:vHome,service:vService,cart:vCart,match:vMatching,track:vTrack,done:vDone,orders:vOrders,pro:vPro,studio:vStudio,ads:vAds,boost:vBoost,salon:vSalon}[S.view];
   $s.innerHTML=V();nav();
   const q=document.getElementById("q");
   if(q)q.addEventListener("input",e=>{S.q=e.target.value;const pos=e.target.selectionStart;render();const n=document.getElementById("q");n.focus();n.setSelectionRange(pos,pos)});
@@ -611,6 +636,10 @@ document.getElementById("phone").addEventListener("click",e=>{
     case "transp": S.transp=v;render();break;
     case "where": S.where=v;render();break;
     case "aud": S.aud=v;render();break;
+    case "salon": S.sal=+v;S.salSlot=0;S.salBooked=false;go("salon");break;
+    case "salslot": S.salSlot=+v;render();break;
+    case "salbook": S.salBooked=true;render();$s.scrollTop=0;break;
+    case "salon-done": S.salBooked=false;go("home");break;
     case "bmodel": S.bmodel=v;render();break;
     case "btog": S[b.dataset.k][v]=!S[b.dataset.k][v];render();break;
     case "bud": S.bud=Math.max(10,S.bud+ +v);render();break;
