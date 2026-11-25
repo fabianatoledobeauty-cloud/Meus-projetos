@@ -61,7 +61,7 @@ Quinta, 26/11, às 20h. Link na bio.
 
 ## Versão final (25/11): teaser + vídeo oficial
 
-**Teaser de suspense** ([[2026-11-25 Cadencia Teaser Suspense.mp4]], 18s): postar antes das 20h.
+**Teaser de suspense** ([[2026-11-25 Cadencia Teaser Suspense v2.mp4]], 28s, só metrônomo e suspense): postar antes das 20h.
 1. O tique do ritmo no escuro: "Você reconhece esse som?"
 2. "Já ouviu ele em algum lugar?" com flashes do reel e do simulador.
 3. "E se eu dissesse que você vai ter acesso ao meu método?"
