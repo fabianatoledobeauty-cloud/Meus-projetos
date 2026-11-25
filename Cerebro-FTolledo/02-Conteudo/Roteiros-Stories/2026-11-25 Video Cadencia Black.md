@@ -56,3 +56,25 @@ Eu criei do zero. Você não vai achar em lugar nenhum. É exclusividade F.Tolle
 Quem fechar um curso na Black das Blacks ganha o Cadência de graça. Depois ele vai ser pago.
 
 Quinta, 26/11, às 20h. Link na bio.
+
+---
+
+## Versão final (25/11): teaser + vídeo oficial
+
+**Teaser de suspense** ([[2026-11-25 Cadencia Teaser Suspense.mp4]], 18s): postar antes das 20h.
+1. O tique do ritmo no escuro: "Você reconhece esse som?"
+2. "Já ouviu ele em algum lugar?" com flashes do reel e do simulador.
+3. "E se eu dissesse que você vai ter acesso ao meu método?"
+4. "Hoje, 20h, eu revelo." Ativa o lembrete.
+
+**Vídeo oficial** ([[2026-11-25 Cadencia Oficial.mp4]], 58s): postar às 20h.
+1. Reel do POV e o barulhinho.
+2. Apresentando: Cadência.
+3. Ajustar a mão: cada detalhe ajustado no movimento (posição do anelar, pegada do dermógrafo, amplitude, peso de mão).
+4. Na prática: passo a passo, na boca, contando as passadas, de todos os ângulos.
+5. Adeus pêndulo desregulado, adeus lábio que não cicatriza.
+6. Ele não vai te deixar errar. Nunca mais.
+7. Eu criei do zero. Exclusividade F.Tolledo.
+8. Quem fechar um curso na Black das Blacks ganha o Cadência de graça. Quinta, 26/11, 20h.
+
+**Legenda do teaser:** Você reconhece esse som? Hoje, às 20h, eu revelo o que ele tem a ver com você. Ativa o lembrete.
