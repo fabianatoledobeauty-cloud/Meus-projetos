@@ -1,0 +1,254 @@
+<title>Fundadoras Belê</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap">
+<style>
+/* Layout: one narrow column, phone first; hero, three-way choice, form, then a review step that hands off to WhatsApp */
+:root{
+  --bg:#F6F1F3;--surface:#FFFFFF;--surface-2:#F9F3F5;--ink:#24131D;--ink-2:#6B5762;--line:#EADDE3;
+  --accent:#C2185B;--accent-ink:#FFFFFF;--accent-soft:#FBE3EC;--ok:#0B7A6C;--ok-soft:#DDF3EF;--err:#B3261E;
+  --f-display:"Bricolage Grotesque","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --f-body:"DM Sans","Helvetica Neue",Arial,system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#140C11;--surface:#1F141A;--surface-2:#281A22;--ink:#F7ECF1;--ink-2:#BCA6B1;--line:#3A2832;
+  --accent:#F06292;--accent-ink:#1A0B12;--accent-soft:#3D1B2A;--ok:#4FD1BD;--ok-soft:#123530;--err:#F2B8B5;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#140C11;--surface:#1F141A;--surface-2:#281A22;--ink:#F7ECF1;--ink-2:#BCA6B1;--line:#3A2832;
+  --accent:#F06292;--accent-ink:#1A0B12;--accent-soft:#3D1B2A;--ok:#4FD1BD;--ok-soft:#123530;--err:#F2B8B5;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 48px}
+.wrap{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+h1,h2,h3{font-family:var(--f-display);margin:0;text-wrap:balance}
+.logo{font-family:var(--f-display);font-weight:800;font-size:34px;color:var(--accent);letter-spacing:-.02em;line-height:1}
+h1{font-size:32px;line-height:1.1;letter-spacing:-.01em}
+.lead{margin:0;color:var(--ink-2);font-size:16.5px}
+.perks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media (max-width:420px){.perks{grid-template-columns:minmax(0,1fr)}}
+.perk{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.perk b{display:block;font-size:15px}
+.perk span{font-size:13.5px;color:var(--ink-2)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:16px}
+.seg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;background:var(--surface-2);border:1px solid var(--line);border-radius:14px;padding:4px}
+.seg button{border:0;background:none;border-radius:10px;padding:10px 4px;font:inherit;font-weight:600;font-size:14px;color:var(--ink-2);cursor:pointer;line-height:1.2}
+.seg button.on{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(36,19,29,.08),0 4px 12px rgba(36,19,29,.08)}
+label,.q{font-weight:600;font-size:14.5px;display:block;margin-bottom:6px}
+.hint{font-weight:400;color:var(--ink-2);font-size:13px}
+input[type=text],input[type=tel],select,textarea{width:100%;font:inherit;font-size:16px;color:var(--ink);background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+textarea{min-height:84px;resize:vertical}
+input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 14px;font:inherit;font-size:14px;cursor:pointer;color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.row2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:420px){.row2{grid-template-columns:minmax(0,1fr)}}
+.consent{display:grid;grid-template-columns:22px minmax(0,1fr);gap:10px;font-size:13.5px;color:var(--ink-2);align-items:start}
+.consent input{width:20px;height:20px;margin:1px 0 0;accent-color:var(--accent)}
+.btn{display:flex;justify-content:center;align-items:center;gap:8px;width:100%;border:0;border-radius:14px;padding:16px;font:inherit;font-weight:700;font-size:16px;background:var(--accent);color:var(--accent-ink);cursor:pointer;text-decoration:none;text-align:center}
+.btn.wa{background:var(--ok);color:var(--accent-ink)}
+.btn.ghost{background:var(--surface-2);color:var(--ink);border:1px solid var(--line)}
+.err{color:var(--err);font-size:13.5px;margin:0}
+.summary{background:var(--surface-2);border-radius:12px;padding:14px;white-space:pre-wrap;font-size:14px;max-height:320px;overflow:auto;margin:0;font-family:var(--f-body)}
+.tag{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--accent);background:var(--accent-soft);padding:4px 9px;border-radius:6px;align-self:flex-start}
+.foot{font-size:12.5px;color:var(--ink-2);text-align:center;margin:0}
+[hidden]{display:none!important}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<main class="wrap">
+  <header style="display:flex;flex-direction:column;gap:14px">
+    <div class="logo">Belê</div>
+    <span class="tag">Vagas de fundadora</span>
+    <h1>Atenda clientes perto de você, na hora que você escolher.</h1>
+    <p class="lead">A Belê é o app de beleza e bem-estar “agora”: em casa, em estúdio ou no salão perto. Estamos montando a primeira turma de profissionais, estúdios e parceiros em São Paulo. Quem entra agora entra com vantagens que não vão se repetir.</p>
+  </header>
+
+  <section class="perks" aria-label="Vantagens de fundadora">
+    <div class="perk"><b>80% de cada atendimento</b><span>Taxa de urgência e gorjeta são 100% suas.</span></div>
+    <div class="perk"><b>Pix na hora</b><span>Terminou o atendimento, o dinheiro cai.</span></div>
+    <div class="perk"><b>Suas clientes, taxa zero</b><span>Quem você trouxer para a Belê não paga taxa para você.</span></div>
+    <div class="perk"><b>30 dias em destaque</b><span>Grátis para as formadas da F.Tolledo Academy.</span></div>
+    <div class="perk"><b>Segurança de verdade</b><span>Cliente verificada, check-in e botão de emergência.</span></div>
+    <div class="perk"><b>Sem estúdio? Sem problema</b><span>Alugue maca por hora perto da cliente.</span></div>
+  </section>
+
+  <form class="card" id="form" novalidate>
+    <div>
+      <span class="q">Eu sou</span>
+      <div class="seg" role="tablist" id="kind">
+        <button type="button" role="tab" data-k="pro" aria-selected="true" class="on">Profissional</button>
+        <button type="button" role="tab" data-k="studio" aria-selected="false">Estúdio ou salão</button>
+        <button type="button" role="tab" data-k="brand" aria-selected="false">Marca ou escola</button>
+      </div>
+    </div>
+
+    <div class="row2">
+      <div><label for="nome">Seu nome</label><input id="nome" type="text" autocomplete="name" required></div>
+      <div><label for="whats">WhatsApp com DDD</label><input id="whats" type="tel" inputmode="tel" autocomplete="tel" placeholder="(11) 90000-0000" required></div>
+    </div>
+
+    <div data-for="studio brand"><label for="empresa">Nome do <span data-for="studio">estúdio ou salão</span><span data-for="brand">marca, loja ou escola</span></label><input id="empresa" type="text"></div>
+
+    <div class="row2" data-for="pro studio">
+      <div><label for="cidade">Cidade</label><input id="cidade" type="text" value="São Paulo"></div>
+      <div><label for="bairro">Bairro <span data-for="pro">onde você atende</span></label><input id="bairro" type="text" placeholder="Ex.: Pinheiros, Vila Madalena"></div>
+    </div>
+
+    <div data-for="pro studio">
+      <span class="q">Serviços <span class="hint">(toque em todos que fizer)</span></span>
+      <div class="chips" id="servicos"></div>
+    </div>
+
+    <div data-for="pro">
+      <span class="q">Onde você atende</span>
+      <div class="chips" id="onde"></div>
+    </div>
+
+    <div data-for="pro">
+      <span class="q">Quando você pode atender</span>
+      <div class="chips" id="quando"></div>
+    </div>
+
+    <div data-for="pro">
+      <label for="academy">Você é formada pela F.Tolledo Academy?</label>
+      <select id="academy">
+        <option value="">Escolha</option>
+        <option>Sim, Magnific Lips</option>
+        <option>Sim, Nanoblading</option>
+        <option>Sim, Magnific Shadow</option>
+        <option>Sim, Método Design Perfeito</option>
+        <option>Sim, mais de um curso</option>
+        <option>Ainda não</option>
+      </select>
+    </div>
+
+    <div data-for="studio">
+      <span class="q">O que você quer oferecer pela Belê</span>
+      <div class="chips" id="oferta"></div>
+    </div>
+    <div data-for="studio" class="row2">
+      <div><label for="macas">Macas ou cadeiras livres</label><input id="macas" type="text" inputmode="numeric" placeholder="Ex.: 2"></div>
+      <div><label for="licenca">Tem licença sanitária?</label><select id="licenca"><option value="">Escolha</option><option>Sim, em dia</option><option>Está em andamento</option><option>Não</option></select></div>
+    </div>
+
+    <div data-for="brand">
+      <span class="q">Tipo de parceria</span>
+      <div class="chips" id="parceria"></div>
+    </div>
+    <div data-for="brand">
+      <label for="proposta">O que você gostaria de oferecer <span class="hint">(desconto, kit, curso, patrocínio)</span></label>
+      <textarea id="proposta"></textarea>
+    </div>
+
+    <div><label for="insta">Instagram <span class="hint">(opcional)</span></label><input id="insta" type="text" placeholder="@seuperfil"></div>
+
+    <label class="consent" for="ok"><input id="ok" type="checkbox"><span>Autorizo a Belê a usar estes dados só para entrar em contato sobre o lançamento. Não compartilhamos com ninguém.</span></label>
+
+    <p class="err" id="err" role="alert" hidden></p>
+    <button class="btn" type="submit">Revisar e enviar</button>
+  </form>
+
+  <section class="card" id="review" hidden aria-live="polite">
+    <h2 style="font-size:22px">Quase lá</h2>
+    <p class="lead" id="reviewText" style="font-size:15px">Confira sua mensagem e envie pelo WhatsApp. É ela que garante sua vaga.</p>
+    <pre class="summary" id="summary"></pre>
+    <a class="btn wa" id="wa" href="#" target="_blank" rel="noopener">Enviar pelo WhatsApp</a>
+    <button class="btn ghost" type="button" id="copy">Copiar mensagem</button>
+    <button class="btn ghost" type="button" id="edit">Corrigir dados</button>
+  </section>
+
+  <p class="foot">Belê · uma iniciativa F.Tolledo · São Paulo</p>
+</main>
+
+<script>
+(function(){
+  /* WhatsApp que recebe os cadastros: só números, com 55 e DDD. Vazio = mostra só "Copiar mensagem". */
+  var WHATSAPP_BELE = "";
+
+  var OPTS={
+    servicos:["Micropigmentação","Sobrancelha","Cílios","Maquiagem","Unhas","Cabelo","Progressiva","Massagem","Drenagem","Depilação","Estética facial"],
+    onde:["Na casa da cliente","No meu estúdio","Quero alugar maca"],
+    quando:["Manhã","Tarde","Noite","Fim de semana"],
+    oferta:["Alugar maca por hora","Vender horários vagos do dia","Receber profissionais da Belê"],
+    parceria:["Desconto para profissionais","Anúncio no app","Patrocínio de kit","Curso com desconto"]
+  };
+  var kind="pro";
+  var picked={};
+  Object.keys(OPTS).forEach(function(k){
+    picked[k]={};
+    var box=document.getElementById(k);
+    OPTS[k].forEach(function(o){
+      var b=document.createElement("button");
+      b.type="button";b.className="chip";b.textContent=o;b.setAttribute("aria-pressed","false");
+      b.addEventListener("click",function(){picked[k][o]=!picked[k][o];b.setAttribute("aria-pressed",String(!!picked[k][o]));});
+      box.appendChild(b);
+    });
+  });
+
+  function showKind(){
+    document.querySelectorAll("[data-for]").forEach(function(el){
+      el.hidden=el.getAttribute("data-for").split(" ").indexOf(kind)<0;
+    });
+    document.querySelectorAll("#kind button").forEach(function(b){
+      var on=b.dataset.k===kind;b.classList.toggle("on",on);b.setAttribute("aria-selected",String(on));
+    });
+  }
+  document.getElementById("kind").addEventListener("click",function(e){
+    var b=e.target.closest("button");if(!b)return;kind=b.dataset.k;showKind();
+  });
+  showKind();
+
+  var $=function(id){return document.getElementById(id)};
+  var val=function(id){return $(id).value.trim()};
+  var list=function(k){return OPTS[k].filter(function(o){return picked[k][o]}).join(", ")};
+
+  function build(){
+    var L=[];
+    var title={pro:"Quero ser profissional fundadora da Belê",studio:"Quero cadastrar meu estúdio ou salão na Belê",brand:"Quero ser parceira da Belê"}[kind];
+    L.push(title,"");
+    L.push("Nome: "+val("nome"));
+    L.push("WhatsApp: "+val("whats"));
+    if(kind!=="pro")L.push((kind==="studio"?"Estúdio/salão: ":"Empresa: ")+val("empresa"));
+    if(kind!=="brand"){L.push("Cidade: "+val("cidade"));L.push("Bairro: "+val("bairro"));L.push("Serviços: "+(list("servicos")||"não informado"));}
+    if(kind==="pro"){L.push("Onde atende: "+(list("onde")||"não informado"));L.push("Quando: "+(list("quando")||"não informado"));L.push("F.Tolledo Academy: "+(val("academy")||"não informado"));}
+    if(kind==="studio"){L.push("Quer oferecer: "+(list("oferta")||"não informado"));L.push("Macas/cadeiras livres: "+(val("macas")||"não informado"));L.push("Licença sanitária: "+(val("licenca")||"não informado"));}
+    if(kind==="brand"){L.push("Parceria: "+(list("parceria")||"não informado"));L.push("Proposta: "+(val("proposta")||"não informado"));}
+    if(val("insta"))L.push("Instagram: "+val("insta"));
+    return L.join("\n");
+  }
+
+  $("form").addEventListener("submit",function(e){
+    e.preventDefault();
+    var err=$("err"),miss=[];
+    if(!val("nome"))miss.push("seu nome");
+    var digits=val("whats").replace(/\D/g,"");
+    if(digits.length<10||digits.length>13)miss.push("um WhatsApp com DDD");
+    if(kind!=="pro"&&!val("empresa"))miss.push(kind==="studio"?"o nome do estúdio":"o nome da empresa");
+    if(kind!=="brand"&&!list("servicos"))miss.push("pelo menos um serviço");
+    if(!$("ok").checked)miss.push("a autorização no fim do formulário");
+    if(miss.length){err.textContent="Falta preencher: "+miss.join(", ")+".";err.hidden=false;return;}
+    err.hidden=true;
+    var msg=build();
+    $("summary").textContent=msg;
+    var wa=$("wa");
+    if(WHATSAPP_BELE){
+      wa.href="https://wa.me/"+WHATSAPP_BELE+"?text="+encodeURIComponent(msg);wa.hidden=false;
+      $("reviewText").textContent="Confira sua mensagem e envie pelo WhatsApp. É ela que garante sua vaga.";
+    }else{
+      wa.hidden=true;
+      $("reviewText").textContent="Copie a mensagem e envie para quem te mandou este link.";
+    }
+    $("form").hidden=true;$("review").hidden=false;$("review").scrollIntoView({behavior:"smooth",block:"start"});
+  });
+
+  $("edit").addEventListener("click",function(){$("review").hidden=true;$("form").hidden=false;});
+  $("copy").addEventListener("click",function(){
+    var t=$("summary").textContent,btn=this;
+    function done(){btn.textContent="Mensagem copiada";setTimeout(function(){btn.textContent="Copiar mensagem"},2500)}
+    function fallback(){var r=document.createRange();r.selectNodeContents($("summary"));var s=window.getSelection();s.removeAllRanges();s.addRange(r);btn.textContent="Texto selecionado: copie e envie";}
+    try{navigator.clipboard.writeText(t).then(done,fallback)}catch(x){fallback()}
+  });
+})();
+</script>
