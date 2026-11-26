@@ -33,6 +33,8 @@ h1{font-size:32px;line-height:1.1;letter-spacing:-.01em}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:16px}
 .seg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;background:var(--surface-2);border:1px solid var(--line);border-radius:14px;padding:4px}
 .seg button{border:0;background:none;border-radius:10px;padding:10px 4px;font:inherit;font-weight:600;font-size:14px;color:var(--ink-2);cursor:pointer;line-height:1.2}
+@media (max-width:360px){.seg{grid-template-columns:minmax(0,1fr)}}
+.seg button{min-width:0}
 .seg button.on{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(36,19,29,.08),0 4px 12px rgba(36,19,29,.08)}
 label,.q{font-weight:600;font-size:14.5px;display:block;margin-bottom:6px}
 .hint{font-weight:400;color:var(--ink-2);font-size:13px}
@@ -49,8 +51,10 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 .btn{display:flex;justify-content:center;align-items:center;gap:8px;width:100%;border:0;border-radius:14px;padding:16px;font:inherit;font-weight:700;font-size:16px;background:var(--accent);color:var(--accent-ink);cursor:pointer;text-decoration:none;text-align:center}
 .btn.wa{background:var(--ok);color:var(--accent-ink)}
 .btn.ghost{background:var(--surface-2);color:var(--ink);border:1px solid var(--line)}
+[aria-invalid="true"]{border-color:var(--err)!important;box-shadow:0 0 0 1px var(--err)}
+.chips[aria-invalid="true"]{border-radius:12px;padding:6px;margin:-6px}
 .err{color:var(--err);font-size:13.5px;margin:0}
-.summary{background:var(--surface-2);border-radius:12px;padding:14px;white-space:pre-wrap;font-size:14px;max-height:320px;overflow:auto;margin:0;font-family:var(--f-body)}
+.summary{overflow-wrap:anywhere;word-break:break-word;background:var(--surface-2);border-radius:12px;padding:14px;white-space:pre-wrap;font-size:14px;max-height:320px;overflow:auto;margin:0;font-family:var(--f-body)}
 .tag{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--accent);background:var(--accent-soft);padding:4px 9px;border-radius:6px;align-self:flex-start}
 .foot{font-size:12.5px;color:var(--ink-2);text-align:center;margin:0}
 [hidden]{display:none!important}
@@ -85,15 +89,15 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
     </div>
 
     <div class="row2">
-      <div><label for="nome">Seu nome</label><input id="nome" type="text" autocomplete="name" required></div>
-      <div><label for="whats">WhatsApp com DDD</label><input id="whats" type="tel" inputmode="tel" autocomplete="tel" placeholder="(11) 90000-0000" required></div>
+      <div><label for="nome">Seu nome</label><input id="nome" type="text" autocomplete="name" maxlength="80" required></div>
+      <div><label for="whats">WhatsApp com DDD</label><input id="whats" type="tel" inputmode="tel" autocomplete="tel" placeholder="(11) 90000-0000" maxlength="20" required></div>
     </div>
 
-    <div data-for="studio brand"><label for="empresa">Nome do <span data-for="studio">estúdio ou salão</span><span data-for="brand">marca, loja ou escola</span></label><input id="empresa" type="text"></div>
+    <div data-for="studio brand"><label for="empresa">Nome do <span data-for="studio">estúdio ou salão</span><span data-for="brand">marca, loja ou escola</span></label><input id="empresa" type="text" maxlength="80"></div>
 
     <div class="row2" data-for="pro studio">
-      <div><label for="cidade">Cidade</label><input id="cidade" type="text" value="São Paulo"></div>
-      <div><label for="bairro">Bairro <span data-for="pro">onde você atende</span></label><input id="bairro" type="text" placeholder="Ex.: Pinheiros, Vila Madalena"></div>
+      <div><label for="cidade">Cidade</label><input id="cidade" type="text" value="São Paulo" maxlength="60"></div>
+      <div><label for="bairro">Bairro <span data-for="pro">onde você atende</span><span data-for="studio">do estúdio ou salão</span></label><input id="bairro" type="text" placeholder="Ex.: Pinheiros, Vila Madalena" maxlength="120"></div>
     </div>
 
     <div data-for="pro studio">
@@ -129,7 +133,7 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
       <div class="chips" id="oferta"></div>
     </div>
     <div data-for="studio" class="row2">
-      <div><label for="macas">Macas ou cadeiras livres</label><input id="macas" type="text" inputmode="numeric" placeholder="Ex.: 2"></div>
+      <div><label for="macas">Macas ou cadeiras livres</label><input id="macas" type="text" inputmode="numeric" placeholder="Ex.: 2" maxlength="10"></div>
       <div><label for="licenca">Tem licença sanitária?</label><select id="licenca"><option value="">Escolha</option><option>Sim, em dia</option><option>Está em andamento</option><option>Não</option></select></div>
     </div>
 
@@ -139,10 +143,10 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
     </div>
     <div data-for="brand">
       <label for="proposta">O que você gostaria de oferecer <span class="hint">(desconto, kit, curso, patrocínio)</span></label>
-      <textarea id="proposta"></textarea>
+      <textarea id="proposta" maxlength="500"></textarea>
     </div>
 
-    <div><label for="insta">Instagram <span class="hint">(opcional)</span></label><input id="insta" type="text" placeholder="@seuperfil"></div>
+    <div><label for="insta">Instagram <span class="hint">(opcional)</span></label><input id="insta" type="text" placeholder="@seuperfil" maxlength="40"></div>
 
     <label class="consent" for="ok"><input id="ok" type="checkbox"><span>Autorizo a Belê a usar estes dados só para entrar em contato sobre o lançamento. Não compartilhamos com ninguém.</span></label>
 
@@ -151,7 +155,7 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
   </form>
 
   <section class="card" id="review" hidden aria-live="polite">
-    <h2 style="font-size:22px">Quase lá</h2>
+    <h2 style="font-size:22px" tabindex="-1">Quase lá</h2>
     <p class="lead" id="reviewText" style="font-size:15px">Confira sua mensagem e envie pelo WhatsApp. É ela que garante sua vaga.</p>
     <pre class="summary" id="summary"></pre>
     <a class="btn wa" id="wa" href="#" target="_blank" rel="noopener">Enviar pelo WhatsApp</a>
@@ -219,31 +223,68 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
     return L.join("\n");
   }
 
+  var shownAt=0;
+  /* toque duplo: ignora toques na revisão logo depois que ela aparece */
+  $("review").addEventListener("click",function(e){if(Date.now()-shownAt<700){e.preventDefault();e.stopImmediatePropagation();}},true);
+  function mark(el,bad){if(bad)el.setAttribute("aria-invalid","true");else el.removeAttribute("aria-invalid");}
+  function check(){
+    var miss=[],first=null;
+    function need(cond,el,label){mark(el,!cond);if(!cond){miss.push(label);if(!first)first=el;}}
+    need(!!val("nome"),$("nome"),"seu nome");
+    var digits=val("whats").replace(/\D/g,"");
+    if(digits.indexOf("55")===0&&digits.length>=12)digits=digits.slice(2);
+    var telOk=/^[1-9][1-9]/.test(digits)&&((digits.length===11&&digits.charAt(2)==="9")||(digits.length===10&&/[2-5]/.test(digits.charAt(2))));
+    need(telOk,$("whats"),"um WhatsApp válido com DDD");
+    if(kind!=="pro")need(!!val("empresa"),$("empresa"),kind==="studio"?"o nome do estúdio ou salão":"o nome da marca, loja ou escola");
+    else mark($("empresa"),false);
+    if(kind!=="brand"){need(!!val("bairro"),$("bairro"),"o bairro");need(!!list("servicos"),$("servicos"),"pelo menos um serviço");}
+    else{mark($("bairro"),false);mark($("servicos"),false);}
+    if(kind==="pro")need(!!list("onde"),$("onde"),"onde você atende");else mark($("onde"),false);
+    need($("ok").checked,$("ok"),"a autorização no fim do formulário");
+    return {miss:miss,first:first};
+  }
   $("form").addEventListener("submit",function(e){
     e.preventDefault();
-    var err=$("err"),miss=[];
-    if(!val("nome"))miss.push("seu nome");
-    var digits=val("whats").replace(/\D/g,"");
-    if(digits.length<10||digits.length>13)miss.push("um WhatsApp com DDD");
-    if(kind!=="pro"&&!val("empresa"))miss.push(kind==="studio"?"o nome do estúdio":"o nome da empresa");
-    if(kind!=="brand"&&!list("servicos"))miss.push("pelo menos um serviço");
-    if(!$("ok").checked)miss.push("a autorização no fim do formulário");
-    if(miss.length){err.textContent="Falta preencher: "+miss.join(", ")+".";err.hidden=false;return;}
+    var err=$("err"),c=check();
+    if(c.miss.length){
+      err.textContent="Falta preencher: "+c.miss.join(", ")+".";err.hidden=false;
+      if(c.first){try{c.first.scrollIntoView({block:"center"});}catch(x){} if(c.first.focus)c.first.focus({preventScroll:true});}
+      return;
+    }
     err.hidden=true;
     var msg=build();
     $("summary").textContent=msg;
     var wa=$("wa");
     if(WHATSAPP_BELE){
       wa.href="https://wa.me/"+WHATSAPP_BELE+"?text="+encodeURIComponent(msg);wa.hidden=false;
-      $("reviewText").textContent="Confira sua mensagem e envie pelo WhatsApp. É ela que garante sua vaga.";
+      $("reviewText").textContent="Confira sua mensagem e toque em enviar. O WhatsApp abre com tudo escrito: é só apertar enviar lá também.";
     }else{
       wa.hidden=true;
       $("reviewText").textContent="Copie a mensagem e envie para quem te mandou este link.";
     }
-    $("form").hidden=true;$("review").hidden=false;$("review").scrollIntoView({behavior:"smooth",block:"start"});
+    $("form").hidden=true;$("review").hidden=false;
+    shownAt=Date.now();
+    try{$("review").scrollIntoView({block:"start"});}catch(x){}
+    $("review").querySelector("h2").focus({preventScroll:true});
   });
+  ["nome","whats","empresa","bairro"].forEach(function(id){$(id).addEventListener("input",function(){mark($(id),false);});});
+  $("ok").addEventListener("change",function(){mark($("ok"),false);});
+  ["servicos","onde"].forEach(function(id){$(id).addEventListener("click",function(){mark($(id),false);});});
 
-  $("edit").addEventListener("click",function(){$("review").hidden=true;$("form").hidden=false;});
+  /* rascunho: se a pessoa sair para o WhatsApp e voltar, os dados continuam */
+  var KEY="bele-cadastro-rascunho";
+  var FIELDS=["nome","whats","empresa","cidade","bairro","academy","macas","licenca","proposta","insta"];
+  function save(){try{var d={kind:kind,picked:picked,ok:$("ok").checked};FIELDS.forEach(function(f){d[f]=$(f).value;});localStorage.setItem(KEY,JSON.stringify(d));}catch(x){}}
+  function load(){try{var d=JSON.parse(localStorage.getItem(KEY)||"null");if(!d)return;
+    if(["pro","studio","brand"].indexOf(d.kind)>=0)kind=d.kind;
+    FIELDS.forEach(function(f){if(typeof d[f]==="string")$(f).value=d[f];});
+    $("ok").checked=!!d.ok;
+    Object.keys(OPTS).forEach(function(k){var src=(d.picked||{})[k]||{};OPTS[k].forEach(function(o,i){picked[k][o]=!!src[o];var b=$(k).children[i];if(b)b.setAttribute("aria-pressed",String(!!src[o]));});});
+    showKind();}catch(x){}}
+  load();
+  $("form").addEventListener("input",save);$("form").addEventListener("change",save);$("form").addEventListener("click",function(){setTimeout(save,0);});
+  document.getElementById("kind").addEventListener("click",function(){setTimeout(save,0);});
+  $("edit").addEventListener("click",function(){$("review").hidden=true;$("form").hidden=false;try{$("form").scrollIntoView({block:"start"});}catch(x){}});
   $("copy").addEventListener("click",function(){
     var t=$("summary").textContent,btn=this;
     function done(){btn.textContent="Mensagem copiada";setTimeout(function(){btn.textContent="Copiar mensagem"},2500)}
