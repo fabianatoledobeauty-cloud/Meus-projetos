@@ -1,6 +1,6 @@
 # Mensagens para chamar as alunas
 
-Troque [LINK] pelo link da página de cadastro antes de enviar.
+O link já está nas mensagens. Ele só funciona para as alunas depois que você criar o link público no menu Compartilhar da página de cadastro. Troque [NOME] pelo nome da aluna.
 
 ## WhatsApp (individual ou lista de transmissão)
 
@@ -14,7 +14,7 @@ E eu quero que as minhas alunas sejam as primeiras. Quem entrar agora vira profi
 • 30 dias em destaque grátis por ser formada na F.Tolledo Academy
 • taxa zero nas clientes que você mesma trouxer
 
-O cadastro leva 2 minutos: [LINK]
+O cadastro leva 2 minutos: https://claude.ai/artifact/KjQKmVpsTk4HEHvpbk9ELz
 
 Ainda estamos no começo, então sua opinião vai me ajudar a construir do jeito certo. Posso contar com você? 💗
 
@@ -26,7 +26,7 @@ Estou lançando a Belê, um app de beleza e bem-estar "agora": a cliente pede e 
 
 Quero que vocês sejam a primeira turma. Profissional fundadora fica com 80% de cada atendimento, recebe por Pix na hora e as formadas da Academy ganham 30 dias de destaque grátis.
 
-Quem quiser garantir a vaga, se cadastra aqui: [LINK]
+Quem quiser garantir a vaga, se cadastra aqui: https://claude.ai/artifact/KjQKmVpsTk4HEHvpbk9ELz
 
 Vou começar por poucos bairros de São Paulo, então as vagas são limitadas.
 
@@ -34,4 +34,4 @@ Vou começar por poucos bairros de São Paulo, então as vagas são limitadas.
 
 1. "Sabe quando você quer fazer a unha, uma massagem ou uma escova AGORA e não sabe onde?"
 2. "Estou criando a Belê: o app que encontra uma profissional perto de você, na hora."
-3. "Profissional, estúdio ou marca? Vem ser fundadora. Link aqui." (figurinha de link com [LINK])
+3. "Profissional, estúdio ou marca? Vem ser fundadora. Link aqui." (figurinha de link com https://claude.ai/artifact/KjQKmVpsTk4HEHvpbk9ELz)

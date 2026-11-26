@@ -1,0 +1,300 @@
+<title>Painel das Fundadoras</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap">
+<style>
+/* Layout: goals strip on top, paste box, then the list of founders; one column on phones, list widens on desktop */
+:root{
+  --bg:#F6F1F3;--surface:#FFFFFF;--surface-2:#F9F3F5;--ink:#24131D;--ink-2:#6B5762;--line:#EADDE3;
+  --accent:#C2185B;--accent-ink:#FFFFFF;--accent-soft:#FBE3EC;--ok:#0B7A6C;--ok-soft:#DDF3EF;--warn:#9A5B00;--warn-soft:#FDF0DC;--err:#B3261E;
+  --f-display:"Bricolage Grotesque","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --f-body:"DM Sans","Helvetica Neue",Arial,system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#140C11;--surface:#1F141A;--surface-2:#281A22;--ink:#F7ECF1;--ink-2:#BCA6B1;--line:#3A2832;
+  --accent:#F06292;--accent-ink:#1A0B12;--accent-soft:#3D1B2A;--ok:#4FD1BD;--ok-soft:#123530;--warn:#F2B35B;--warn-soft:#3A2A12;--err:#F2B8B5;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#140C11;--surface:#1F141A;--surface-2:#281A22;--ink:#F7ECF1;--ink-2:#BCA6B1;--line:#3A2832;
+  --accent:#F06292;--accent-ink:#1A0B12;--accent-soft:#3D1B2A;--ok:#4FD1BD;--ok-soft:#123530;--warn:#F2B35B;--warn-soft:#3A2A12;--err:#F2B8B5;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.45;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 48px}
+.wrap{max-width:880px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+h1,h2{font-family:var(--f-display);margin:0;text-wrap:balance}
+h1{font-size:28px;letter-spacing:-.01em}
+h2{font-size:18px}
+.sub{color:var(--ink-2);margin:4px 0 0}
+.logo{font-family:var(--f-display);font-weight:800;font-size:22px;color:var(--accent)}
+.goals{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media (max-width:620px){.goals{grid-template-columns:minmax(0,1fr)}}
+.goal{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;display:grid;gap:6px;min-width:0}
+.goal small{color:var(--ink-2);font-size:12.5px}
+.goal b{font-family:var(--f-display);font-size:26px;font-variant-numeric:tabular-nums}
+.goal b span{font-size:15px;color:var(--ink-2);font-weight:600}
+.bar{height:6px;border-radius:999px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:999px}
+.bar.done i{background:var(--ok)}
+.two{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:12px}
+@media (max-width:720px){.two{grid-template-columns:minmax(0,1fr)}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:12px;min-width:0}
+textarea,input[type=search],select{font:inherit;color:var(--ink);background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:10px 12px;width:100%}
+textarea{min-height:130px;resize:vertical;font-size:14px}
+button,.btn{font:inherit;cursor:pointer}
+.btn{display:inline-flex;justify-content:center;align-items:center;gap:6px;border:0;border-radius:12px;padding:11px 16px;font-weight:700;background:var(--accent);color:var(--accent-ink);text-decoration:none}
+.btn.ghost{background:var(--surface-2);color:var(--ink);border:1px solid var(--line)}
+.btn.ok{background:var(--ok);color:var(--accent-ink)}
+.btn.small{padding:7px 12px;font-size:13px;border-radius:10px}
+.btn[disabled]{opacity:.5;cursor:default}
+button:focus-visible,a:focus-visible,textarea:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.msg{font-size:13.5px;margin:0;padding:10px 12px;border-radius:10px}
+.msg.ok{background:var(--ok-soft);color:var(--ink)}
+.msg.err{background:var(--warn-soft);color:var(--ink)}
+.kv{display:grid;grid-template-columns:minmax(110px,auto) minmax(0,1fr);gap:4px 12px;font-size:13.5px;margin:0}
+.kv dt{color:var(--ink-2)}
+.kv dd{margin:0;overflow-wrap:anywhere}
+.bairros{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.bairros li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center;font-size:14px}
+.bairros .b{height:6px;border-radius:999px;background:var(--accent-soft);grid-column:1/-1;overflow:hidden}
+.bairros .b i{display:block;height:100%;background:var(--accent)}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 12px;font-size:13px;color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.list{display:flex;flex-direction:column;gap:8px}
+.item{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 12px;align-items:start}
+@media (max-width:560px){.item{grid-template-columns:minmax(0,1fr)}}
+.item .name{font-weight:700;font-size:15.5px;overflow-wrap:anywhere}
+.item .meta{color:var(--ink-2);font-size:13px;overflow-wrap:anywhere}
+.tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:3px 7px;border-radius:6px;background:var(--surface-2);color:var(--ink-2);margin-right:4px}
+.tag.pro{background:var(--accent-soft);color:var(--accent)}
+.tag.studio{background:var(--ok-soft);color:var(--ok)}
+.tag.brand{background:var(--warn-soft);color:var(--warn)}
+.tag.acad{background:var(--accent);color:var(--accent-ink)}
+.actions{display:flex;gap:6px;flex-wrap:wrap;align-items:center;justify-content:flex-end}
+@media (max-width:560px){.actions{justify-content:flex-start}}
+.actions select{width:auto;padding:7px 10px;font-size:13px;border-radius:10px}
+.st-novo{border-left:4px solid var(--accent)}
+.st-confirmada{border-left:4px solid var(--ok)}
+.empty{text-align:center;color:var(--ink-2);padding:28px 16px;border:1px dashed var(--line);border-radius:14px;background:var(--surface)}
+.note{font-size:12.5px;color:var(--ink-2);margin:0}
+[hidden]{display:none!important}
+</style>
+
+<main class="wrap">
+  <header>
+    <div class="logo">Belê</div>
+    <h1>Painel das Fundadoras</h1>
+    <p class="sub">Cole aqui cada cadastro que chegar no WhatsApp. O painel organiza, conta e mostra quem falta chamar.</p>
+  </header>
+
+  <p class="msg err" id="gate" hidden></p>
+
+  <section class="goals" aria-label="Metas do piloto">
+    <div class="goal"><small>Profissionais</small><b id="g-pro">0<span> / 30</span></b><div class="bar" id="gb-pro"><i style="width:0"></i></div></div>
+    <div class="goal"><small>Estúdios e salões</small><b id="g-studio">0<span> / 15</span></b><div class="bar" id="gb-studio"><i style="width:0"></i></div></div>
+    <div class="goal"><small>Marcas e escolas</small><b id="g-brand">0<span> / 3</span></b><div class="bar" id="gb-brand"><i style="width:0"></i></div></div>
+  </section>
+
+  <div class="two">
+    <section class="card" aria-labelledby="t-colar">
+      <h2 id="t-colar">Novo cadastro</h2>
+      <label for="paste" class="note">No WhatsApp, segure a mensagem, toque em Copiar e cole aqui.</label>
+      <textarea id="paste" placeholder="Quero ser profissional fundadora da Belê&#10;&#10;Nome: ...&#10;WhatsApp: ..."></textarea>
+      <div class="row"><button class="btn" id="parse" type="button">Organizar</button><button class="btn ghost" id="clear" type="button">Limpar</button></div>
+      <p class="msg" id="pmsg" hidden role="status"></p>
+      <div id="preview" hidden>
+        <dl class="kv" id="pv"></dl>
+        <div class="row" style="margin-top:10px"><button class="btn ok" id="save" type="button">Salvar no painel</button><button class="btn ghost" id="cancel" type="button">Cancelar</button></div>
+      </div>
+    </section>
+    <section class="card" aria-labelledby="t-bairros">
+      <h2 id="t-bairros">Onde estão as profissionais</h2>
+      <p class="note">Bairros citados por profissionais, estúdios e salões. Os primeiros são os candidatos ao piloto.</p>
+      <ul class="bairros" id="bairros"></ul>
+      <p class="note" id="acad"></p>
+    </section>
+  </div>
+
+  <section class="card" aria-labelledby="t-lista">
+    <div class="row" style="justify-content:space-between"><h2 id="t-lista">Cadastros</h2><span class="note" id="count"></span></div>
+    <input type="search" id="q" placeholder="Buscar por nome, bairro ou serviço" aria-label="Buscar">
+    <div class="chips" id="ftipo" aria-label="Filtrar por tipo"></div>
+    <div class="chips" id="fstatus" aria-label="Filtrar por situação"></div>
+    <div class="list" id="list"></div>
+  </section>
+  <p class="note">Os dados ficam guardados nesta página e só você e quem tiver acesso de edição conseguem ver.</p>
+</main>
+
+<script>
+(function(){
+  var TIPOS={pro:"Profissional",studio:"Estúdio ou salão",brand:"Marca ou escola"};
+  var STATUS={novo:"Novo",conversei:"Conversei",confirmada:"Confirmada",nao_agora:"Não agora"};
+  var KEYS={"nome":"nome","whatsapp":"whatsapp","estúdio/salão":"empresa","empresa":"empresa","cidade":"cidade","bairro":"bairro","serviços":"servicos","onde atende":"onde","quando":"quando","f.tolledo academy":"academy","quer oferecer":"oferta","macas/cadeiras livres":"macas","licença sanitária":"licenca","parceria":"parceria","proposta":"proposta","instagram":"instagram"};
+  var LABEL={nome:"Nome",whatsapp:"WhatsApp",empresa:"Empresa",cidade:"Cidade",bairro:"Bairro",servicos:"Serviços",onde:"Onde atende",quando:"Quando",academy:"Academy",oferta:"Quer oferecer",macas:"Macas livres",licenca:"Licença sanitária",parceria:"Parceria",proposta:"Proposta",instagram:"Instagram"};
+
+  /* lê a mensagem gerada pela página de cadastro (aceita o prefixo de data e nome que o WhatsApp coloca ao copiar) */
+  function parseCadastro(text){
+    if(typeof text!=="string")return null;
+    var t=text.replace(/\r/g,"");
+    var tipo=null;
+    if(/Quero ser profissional fundadora da Bel/i.test(t))tipo="pro";
+    else if(/Quero cadastrar meu est[uú]dio ou sal[aã]o/i.test(t))tipo="studio";
+    else if(/Quero ser parceira da Bel/i.test(t))tipo="brand";
+    if(!tipo)return null;
+    var r={tipo:tipo};
+    t.split("\n").forEach(function(line){
+      var m=line.match(/^\s*(?:\[[^\]]*\]\s*[^:]*:\s*)?([^:]{3,30}):\s*(.*)$/);
+      if(!m)return;
+      var k=KEYS[m[1].trim().toLowerCase()];
+      if(!k||r[k])return;
+      var v=m[2].trim();
+      if(v&&v!=="não informado")r[k]=v.slice(0,600);
+    });
+    if(!r.nome||!r.whatsapp)return null;
+    var d=r.whatsapp.replace(/\D/g,"");
+    if(d.indexOf("55")===0&&d.length>=12)d=d.slice(2);
+    if(d.length<10||d.length>11)return null;
+    r.digits=d;
+    return r;
+  }
+  window.__parseCadastro=parseCadastro;
+
+  var $=function(id){return document.getElementById(id)};
+  var esc=function(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})};
+  var all=[],ftipo="todos",fstatus="todos",pending=null,db=null,canWrite=false;
+
+  function show(el,text,kind){el.textContent=text;el.className="msg "+(kind||"ok");el.hidden=false;}
+
+  function normBairros(s){
+    if(!s)return[];
+    return s.split(/,|\/|;| e /i).map(function(x){x=x.trim().replace(/\s+/g," ");if(!x)return"";return x.toLowerCase().replace(/(^|\s)(\S)/g,function(a,b,c){return b+c.toUpperCase()}).replace(/\b(De|Da|Do|Das|Dos)\b/g,function(w){return w.toLowerCase()});}).filter(Boolean);
+  }
+
+  function renderGoals(){
+    var ativos=all.filter(function(r){return r.status!=="nao_agora"});
+    [["pro",30],["studio",15],["brand",3]].forEach(function(g){
+      var n=ativos.filter(function(r){return r.tipo===g[0]}).length;
+      $("g-"+g[0]).firstChild.nodeValue=String(n);
+      var bar=$("gb-"+g[0]);bar.firstElementChild.style.width=Math.min(100,n/g[1]*100)+"%";bar.classList.toggle("done",n>=g[1]);
+    });
+    var count={};
+    ativos.filter(function(r){return r.tipo!=="brand"}).forEach(function(r){normBairros(r.bairro).forEach(function(b){count[b]=(count[b]||0)+1})});
+    var top=Object.keys(count).sort(function(a,b){return count[b]-count[a]||a.localeCompare(b)}).slice(0,6);
+    var ul=$("bairros");ul.textContent="";
+    if(!top.length){var li=document.createElement("li");li.className="note";li.textContent="Os bairros aparecem aqui conforme os cadastros chegam.";ul.appendChild(li);}
+    var mx=top.length?count[top[0]]:1;
+    top.forEach(function(b){var li=document.createElement("li");li.innerHTML='<span>'+esc(b)+'</span><b>'+count[b]+'</b><div class="b"><i style="width:'+(count[b]/mx*100)+'%"></i></div>';ul.appendChild(li);});
+    var ac=ativos.filter(function(r){return r.tipo==="pro"&&r.academy&&/^sim/i.test(r.academy)}).length;
+    var pros=ativos.filter(function(r){return r.tipo==="pro"}).length;
+    $("acad").textContent=pros?ac+" de "+pros+" profissionais são formadas na F.Tolledo Academy.":"";
+  }
+
+  function chipsRow(box,map,cur,key){
+    box.textContent="";
+    var items=[["todos","Todos"]].concat(Object.keys(map).map(function(k){return[k,map[k]]}));
+    items.forEach(function(it){var b=document.createElement("button");b.type="button";b.className="chip";b.textContent=it[1]+(it[0]==="todos"?"":" ("+all.filter(function(r){return r[key]===it[0]}).length+")");b.setAttribute("aria-pressed",String(cur===it[0]));b.dataset.v=it[0];box.appendChild(b);});
+  }
+
+  function renderList(){
+    chipsRow($("ftipo"),TIPOS,ftipo,"tipo");chipsRow($("fstatus"),STATUS,fstatus,"status");
+    var q=$("q").value.trim().toLowerCase();
+    var rows=all.filter(function(r){
+      if(ftipo!=="todos"&&r.tipo!==ftipo)return false;
+      if(fstatus!=="todos"&&r.status!==fstatus)return false;
+      if(q){var hay=[r.nome,r.bairro,r.servicos,r.empresa,r.cidade].join(" ").toLowerCase();if(hay.indexOf(q)<0)return false;}
+      return true;
+    }).sort(function(a,b){return String(b.criadoEm||"").localeCompare(String(a.criadoEm||""))});
+    $("count").textContent=all.length===1?"1 cadastro":all.length+" cadastros";
+    var list=$("list");list.textContent="";
+    if(!all.length){list.innerHTML='<div class="empty"><b>Nenhum cadastro ainda.</b><br>Quando a primeira mensagem chegar no WhatsApp, cole no quadro "Novo cadastro".</div>';return;}
+    if(!rows.length){list.innerHTML='<div class="empty">Nenhum cadastro com esses filtros.</div>';return;}
+    rows.forEach(function(r){
+      var el=document.createElement("article");el.className="item st-"+r.status;
+      var acad=r.tipo==="pro"&&r.academy&&/^sim/i.test(r.academy)?'<span class="tag acad">Academy</span>':"";
+      var linha2=[r.empresa,r.bairro,r.cidade&&r.cidade!=="São Paulo"?r.cidade:""].filter(Boolean).join(" · ");
+      var linha3=r.tipo==="brand"?[r.parceria,r.proposta].filter(Boolean).join(" · "):[r.servicos,r.onde,r.quando].filter(Boolean).join(" · ");
+      el.innerHTML='<div><div><span class="tag '+r.tipo+'">'+esc(TIPOS[r.tipo])+'</span>'+acad+'</div><div class="name">'+esc(r.nome)+'</div>'+
+        (linha2?'<div class="meta">'+esc(linha2)+'</div>':"")+(linha3?'<div class="meta">'+esc(linha3)+'</div>':"")+
+        '<div class="meta">'+esc(r.whatsapp||"")+(r.instagram?' · '+esc(r.instagram):"")+'</div></div>'+
+        '<div class="actions"><select aria-label="Situação de '+esc(r.nome)+'" data-act="status" data-id="'+esc(r.id)+'"'+(canWrite?"":" disabled")+'>'+
+        Object.keys(STATUS).map(function(k){return'<option value="'+k+'"'+(r.status===k?" selected":"")+'>'+STATUS[k]+'</option>'}).join("")+'</select>'+
+        '<a class="btn small ok" target="_blank" rel="noopener" href="https://wa.me/55'+esc(r.digits)+'">WhatsApp</a>'+
+        (canWrite?'<button class="btn small ghost" type="button" data-act="del" data-id="'+esc(r.id)+'">Excluir</button>':"")+'</div>';
+      list.appendChild(el);
+    });
+  }
+  function render(){renderGoals();renderList();}
+
+  $("ftipo").addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;ftipo=b.dataset.v;renderList();});
+  $("fstatus").addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;fstatus=b.dataset.v;renderList();});
+  $("q").addEventListener("input",renderList);
+
+  $("parse").addEventListener("click",function(){
+    var r=parseCadastro($("paste").value);
+    $("preview").hidden=true;pending=null;
+    if(!r){show($("pmsg"),"Não reconheci essa mensagem. Cole a mensagem inteira que chegou pelo cadastro, começando por \"Quero...\".","err");return;}
+    pending=r;
+    var dup=all.filter(function(x){return x.digits===r.digits})[0];
+    show($("pmsg"),dup?"Esse WhatsApp já está no painel ("+dup.nome+"). Salvar vai atualizar os dados e manter a situação.":"Confira e salve.",dup?"err":"ok");
+    var dl=$("pv");dl.textContent="";
+    var rows=[["Tipo",TIPOS[r.tipo]]].concat(Object.keys(LABEL).filter(function(k){return r[k]}).map(function(k){return[LABEL[k],r[k]]}));
+    rows.forEach(function(p){var dt=document.createElement("dt");dt.textContent=p[0];var dd=document.createElement("dd");dd.textContent=p[1];dl.appendChild(dt);dl.appendChild(dd);});
+    $("preview").hidden=false;
+    $("save").disabled=!canWrite;
+    if(!canWrite)show($("pmsg"),"Você está vendo o painel sem permissão para salvar.","err");
+  });
+  $("clear").addEventListener("click",function(){$("paste").value="";$("preview").hidden=true;$("pmsg").hidden=true;pending=null;});
+  $("cancel").addEventListener("click",function(){$("preview").hidden=true;pending=null;$("pmsg").hidden=true;});
+
+  var saving=false;
+  $("save").addEventListener("click",async function(){
+    if(!pending||!db||saving)return;saving=true;$("save").disabled=true;
+    var r=pending,id="w"+r.digits,now=new Date().toISOString();
+    var prev=all.filter(function(x){return x.id===id})[0];
+    var body={tipo:r.tipo,digits:r.digits,status:prev?prev.status:"novo",criadoEm:prev?prev.criadoEm:now,atualizadoEm:now};
+    Object.keys(LABEL).forEach(function(k){body[k]=r[k]||""});
+    try{
+      await db.collection("fundadoras").doc(id).set(body);
+      show($("pmsg"),prev?"Cadastro de "+r.nome+" atualizado.":r.nome+" entrou no painel.","ok");
+      $("paste").value="";$("preview").hidden=true;pending=null;
+    }catch(e){
+      show($("pmsg"),e&&e.code==="quota_exceeded"?"O painel atingiu o limite de cadastros. Exclua alguns antigos para continuar.":"Não consegui salvar agora. Tente de novo em alguns segundos.","err");
+    }finally{saving=false;$("save").disabled=false;}
+  });
+
+  var confirming=null;
+  $("list").addEventListener("click",async function(e){
+    var b=e.target.closest('button[data-act="del"]');if(!b||!db)return;
+    var id=b.dataset.id;
+    if(confirming!==id){confirming=id;b.textContent="Confirmar exclusão";b.classList.remove("ghost");setTimeout(function(){if(confirming===id){confirming=null;if(b.isConnected){b.textContent="Excluir";b.classList.add("ghost");}}},4000);return;}
+    confirming=null;b.disabled=true;
+    try{await db.collection("fundadoras").doc(id).delete();}catch(x){b.disabled=false;b.textContent="Excluir";}
+  });
+  var statusBusy={};
+  $("list").addEventListener("change",async function(e){
+    var s=e.target.closest('select[data-act="status"]');if(!s||!db)return;
+    var id=s.dataset.id;if(statusBusy[id])return;statusBusy[id]=true;s.disabled=true;
+    try{await db.collection("fundadoras").doc(id).update({status:s.value,atualizadoEm:new Date().toISOString()});}
+    catch(x){show($("pmsg"),"Não consegui mudar a situação. Tente de novo.","err");}
+    finally{statusBusy[id]=false;s.disabled=false;}
+  });
+
+  render();
+
+  (async function start(){
+    if(!window.claude||!window.claude.use){$("gate").textContent="Abra este painel pelo Claude, logada na sua conta, para ver e salvar os cadastros.";$("gate").hidden=false;$("parse").disabled=false;return;}
+    var user=null;
+    try{db=await window.claude.use("db");user=await window.claude.use("user");}catch(x){db=null;}
+    if(!db){$("gate").textContent="Abra este painel pelo Claude, logada na sua conta, para ver e salvar os cadastros.";$("gate").hidden=false;return;}
+    try{var ce=user?await user.canEdit():null;canWrite=ce!==false;}catch(x){canWrite=true;}
+    if(!canWrite){$("gate").textContent="Você pode ver este painel, mas só a dona consegue salvar e editar.";$("gate").hidden=false;}
+    var timer=setTimeout(function(){$("gate").textContent="Os cadastros estão demorando para carregar. Confira sua internet; a página continua tentando.";$("gate").hidden=false;},10000);
+    db.collection("fundadoras").onSnapshot(function(snap){
+      if(!snap.metadata.fromCache){clearTimeout(timer);if(/demorando/.test($("gate").textContent))$("gate").hidden=true;}
+      all=snap.docs.map(function(d){var o=Object.assign({},d.data());o.id=d.id;if(!STATUS[o.status])o.status="novo";if(!TIPOS[o.tipo])o.tipo="pro";o.digits=String(o.digits||"").replace(/\D/g,"");return o;});
+      render();
+    },function(err){clearTimeout(timer);$("gate").textContent="Não foi possível carregar os cadastros agora. Recarregue a página mais tarde.";$("gate").hidden=false;});
+  })();
+})();
+</script>
